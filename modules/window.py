@@ -1,6 +1,7 @@
 import PyQt6.QtCore as core
 import PyQt6.QtWidgets as widgets
 import os
+import PyQt6.QtGui as gui
 
 from .app import app_obj
 from .title_bar import Title_bar
@@ -55,11 +56,33 @@ class MainWindow(widgets.QMainWindow):
         left_frame = Frame_create(layout= self.LEFT_FRAME_LAYOUT, width=370, height= 800)
         left_frame.setLayout(self.LEFT_FRAME_LAYOUT)
         left_frame.setStyleSheet("background-color: rgba(0, 0, 0, 51)")
-        scroll_area = Scroll_frame(left_frame)
+        self.CONTENT_FRAME_LAYOUT.addWidget(left_frame)
         self.LEFT_FRAME_LAYOUT.setContentsMargins(0, 0, 0, 0)
+
+        self.FRAME_BUTTON_LAYOUT = widgets.QVBoxLayout()
+        self.FRAME_BUTTON_LAYOUT.setAlignment(core.Qt.AlignmentFlag.AlignRight)
+        frame_for_button = Frame_create(layout= self.FRAME_BUTTON_LAYOUT, width=330, height=44)
+        frame_for_button.setLayout(self.FRAME_BUTTON_LAYOUT)
+        self.DARK_MODE_BUTTON = widgets.QPushButton(parent=frame_for_button)
+        self.DARK_MODE_BUTTON.setFixedSize(52, 24)
+        self.DARK_MODE_BUTTON.setObjectName("BUTTON")
+        path_btn = os.path.abspath(os.path.join(__file__, "..", "..", "media", "light_btn.png"))
+        icon = gui.QIcon(path_btn)
+        # icon.addFile(path_btn, (54, 24))
+        self.DARK_MODE_BUTTON.setIcon(icon)
+        def button_dark_pressed():
+            print("pressed!")
+        self.FRAME_BUTTON_LAYOUT.addWidget(self.DARK_MODE_BUTTON)
+        # self.DARK_MODE_BUTTON.setObjectName("BUTTON")
+        self.DARK_MODE_BUTTON.setStyleSheet("border-radius: 20px;") 
+        self.DARK_MODE_BUTTON.clicked.connect(button_dark_pressed)
+        self.LEFT_FRAME_LAYOUT.addWidget(frame_for_button)
+
+        scroll_area = Scroll_frame(left_frame)
         self.LEFT_FRAME_LAYOUT.addWidget(scroll_area)
         
-        self.CONTENT_FRAME_LAYOUT.addWidget(left_frame)
+    
+
         graphic = Graphic(self.CONTENT_FRAME_LAYOUT)
 
 
