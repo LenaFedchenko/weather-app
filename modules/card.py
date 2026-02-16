@@ -3,7 +3,7 @@ import PyQt6.QtCore as core
 from .frame import Frame_create
 
 class Card(widgets.QFrame):
-    def __init__(self):
+    def __init__(self, city_name, time, temp, max_temp, min_temp, description_weather):
         super().__init__()
         self.setFixedSize(core.QSize(330, 98))
         self.setStyleSheet("""
@@ -32,16 +32,16 @@ class Card(widgets.QFrame):
         self.LAYOUT_FRAME3.setContentsMargins(2, 0, 0, 7)
         self.LAYOUT_DEGREE = widgets.QHBoxLayout()
         frame_degree = Frame_create(layout=self.LAYOUT_DEGREE, width=67, height=52)
-        self.DEGREE = widgets.QLabel(parent= frame_degree, text= "11°") 
+        self.DEGREE = widgets.QLabel(parent= frame_degree, text= f"{temp}°") 
         self.DEGREE.setStyleSheet("font-size: 44px; background-color: transparent") 
 
-        self.CITY_NAME = widgets.QLabel(parent= frame3, text="Рим")
-        self.TIME = widgets.QLabel(parent= frame3, text="20:15")
+        self.CITY_NAME = widgets.QLabel(parent= frame3, text= city_name)
+        self.TIME = widgets.QLabel(parent= frame3, text=time)
         self.CITY_NAME.setStyleSheet("font-size: 24px; background-color: transparent")
         self.TIME.setStyleSheet("font-size: 12px; background-color: transparent")
 
-        self.WEATER_FEELING = widgets.QLabel(parent=frame2, text= "Переважно хмарно")
-        self.TEMP = widgets.QLabel(parent=frame2, text="Макс.:11°, мін.:0°s")
+        self.WEATER_FEELING = widgets.QLabel(parent=frame2, text= description_weather)
+        self.TEMP = widgets.QLabel(parent=frame2, text=f"Макс.:{max_temp}°, мін.:{min_temp}°s")
         self.WEATER_FEELING.setStyleSheet("font-size: 12px; background-color: transparent")
         self.TEMP.setStyleSheet("font-size: 12px; background-color: transparent")
         self.TEMP.setAlignment(core.Qt.AlignmentFlag.AlignRight)

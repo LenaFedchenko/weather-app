@@ -1,8 +1,8 @@
 import PyQt6.QtCore as core
 import PyQt6.QtWidgets as widgets
-
+import json
 from .frame import Frame_create
-from utils import api_request
+from utils import api_request_func
 
 class Graphic:
         def __init__(self, content_frame):
@@ -29,8 +29,7 @@ class Graphic:
             temperature_graph_frame.setMaximumSize(727, 136)
             
             self.FRAME2_LAYOUT.addWidget(temperature_graph_frame)
-            
-            data_dict = api_request("Miami")
+            data_dict = api_request_func("Miami")
             for hour_data in data_dict["list"]:
                 temperature = int(hour_data["main"]["temp"])
                 
