@@ -63,19 +63,24 @@ class MainWindow(widgets.QMainWindow):
         self.FRAME_BUTTON_LAYOUT.setAlignment(core.Qt.AlignmentFlag.AlignRight)
         frame_for_button = Frame_create(layout= self.FRAME_BUTTON_LAYOUT, width=330, height=44)
         frame_for_button.setStyleSheet("background-color: transparent")
-        # frame_for_button.setLayout(self.FRAME_BUTTON_LAYOUT)
         self.DARK_MODE_BUTTON = widgets.QPushButton(parent=frame_for_button)
         self.DARK_MODE_BUTTON.setFixedSize(52, 24)
         self.DARK_MODE_BUTTON.setObjectName("BUTTON")
         self.path_btn = os.path.abspath(os.path.join(__file__, "..", "..", "media", "light_btn.png"))
         self.icon = gui.QIcon(self.path_btn)
         self.DARK_MODE_BUTTON.setIconSize(core.QSize(52, 24))
+        self.FLAF_SWITCH = True
         def button_dark_pressed():
-            self.icon = gui.QIcon(os.path.abspath(os.path.join(__file__, "..", "..", "media", "dark_btn.png")))
+            self.FLAF_SWITCH = not self.FLAF_SWITCH
+            if self.FLAF_SWITCH:
+                self.path_btn = os.path.abspath(os.path.join(__file__, "..", "..", "media", "light_btn.png"))
+            else:
+                self.path_btn = gui.QIcon(os.path.abspath(os.path.join(__file__, "..", "..", "media", "dark_btn.png")))
+            self.icon = gui.QIcon(self.path_btn)
             self.DARK_MODE_BUTTON.setIcon(self.icon)
+
         self.DARK_MODE_BUTTON.setIcon(self.icon)
         self.FRAME_BUTTON_LAYOUT.addWidget(self.DARK_MODE_BUTTON)
-        # self.DARK_MODE_BUTTON.setObjectName("BUTTON")
         self.DARK_MODE_BUTTON.setStyleSheet("border-radius: 20px; background-color: transparent") 
         self.DARK_MODE_BUTTON.clicked.connect(button_dark_pressed)
         self.LEFT_FRAME_LAYOUT.addWidget(frame_for_button)

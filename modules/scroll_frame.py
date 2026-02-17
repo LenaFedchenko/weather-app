@@ -8,7 +8,7 @@ class Scroll_frame(widgets.QScrollArea):
     def __init__(self, parent):
         widgets.QScrollArea.__init__(self, parent = parent)
         self.setVerticalScrollBarPolicy(core.Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-        self.setFixedSize(370, 707)
+        self.setFixedSize(370, 727)
         self.setStyleSheet("border: none; background-color: transparent")
         self.setWidgetResizable(True)
         self.SCROLL_FRAME = widgets.QFrame(parent = self)
@@ -22,8 +22,8 @@ class Scroll_frame(widgets.QScrollArea):
         city_time = utc_now + timedelta(seconds=timezone_offset)
         # только часы и минуты
         time_final = city_time.strftime("%H:%M")
-
-
+        
+        
         for i in range(10):
             card = Card(
                 time= time_final,
@@ -33,6 +33,8 @@ class Scroll_frame(widgets.QScrollArea):
                 max_temp = max_t,
                 min_temp = min_t
                 )
+            
+
             self.SCROLL_FRAME_LAYOUT.addWidget(card)
 
 

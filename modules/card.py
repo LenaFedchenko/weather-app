@@ -7,7 +7,7 @@ class Card(widgets.QFrame):
         super().__init__()
         self.setFixedSize(core.QSize(330, 98))
         self.setStyleSheet("""
-                            background-color: rgba(0, 0, 0, 51); 
+                            background-color: transparent; 
                             border-radius: 8px;
                             """)
         self.LAYOUT = widgets.QVBoxLayout()
@@ -47,9 +47,19 @@ class Card(widgets.QFrame):
         self.TEMP.setAlignment(core.Qt.AlignmentFlag.AlignRight)
         self.WEATER_FEELING.setAlignment(core.Qt.AlignmentFlag.AlignLeft)
 
+        layout = widgets.QVBoxLayout()
+        frame_line = Frame_create(layout=layout, width=314, height=1, color= "rgba(255, 255, 255, 0.5)")
         self.FRAME2_LAYOUT.addWidget(self.WEATER_FEELING)
         self.FRAME2_LAYOUT.addWidget(self.TEMP)
         self.LAYOUT_FRAME3.addWidget(self.CITY_NAME)
         self.LAYOUT_FRAME3.addWidget(self.TIME)
         self.FRAME_LAYOUT.addWidget(frame3)
+        self.LAYOUT.addWidget(frame_line)
         self.FRAME_LAYOUT.addWidget(frame_degree)
+
+        btn = widgets.QPushButton(parent= self)
+        btn.setStyleSheet("background-color: transparent")
+        btn.setFixedSize(330, 98)
+        btn.clicked.connect(self.test)
+    def test(self):
+        print("card")
