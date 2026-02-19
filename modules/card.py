@@ -3,6 +3,7 @@ import PyQt6.QtCore as core
 from .frame import Frame_create
 
 class Card(widgets.QFrame):
+    active_card = None
     def __init__(self, city_name, time, temp, max_temp, min_temp, description_weather):
         super().__init__()
         self.setFixedSize(core.QSize(330, 98))
@@ -33,33 +34,52 @@ class Card(widgets.QFrame):
         self.LAYOUT_DEGREE = widgets.QHBoxLayout()
         frame_degree = Frame_create(layout=self.LAYOUT_DEGREE, width=67, height=52)
         self.DEGREE = widgets.QLabel(parent= frame_degree, text= f"{temp}°") 
-        self.DEGREE.setStyleSheet("font-size: 44px; background-color: transparent") 
+        self.DEGREE.setStyleSheet("font-size: 40px; background-color: transparent; font-weight: 700") 
 
         self.CITY_NAME = widgets.QLabel(parent= frame3, text= city_name)
         self.TIME = widgets.QLabel(parent= frame3, text=time)
-        self.CITY_NAME.setStyleSheet("font-size: 24px; background-color: transparent")
-        self.TIME.setStyleSheet("font-size: 12px; background-color: transparent")
+        self.CITY_NAME.setStyleSheet("font-size: 24px; background-color: transparent; font-weight: 700")
+        self.TIME.setStyleSheet("font-size: 12px; background-color: transparent; font-weight: 700")
 
         self.WEATER_FEELING = widgets.QLabel(parent=frame2, text= description_weather)
         self.TEMP = widgets.QLabel(parent=frame2, text=f"Макс.:{max_temp}°, мін.:{min_temp}°s")
-        self.WEATER_FEELING.setStyleSheet("font-size: 12px; background-color: transparent")
-        self.TEMP.setStyleSheet("font-size: 12px; background-color: transparent")
+        self.WEATER_FEELING.setStyleSheet("font-size: 12px; background-color: transparent; font-weight: 700")
+        self.TEMP.setStyleSheet("font-size: 12px; background-color: transparent; font-weight: 700")
         self.TEMP.setAlignment(core.Qt.AlignmentFlag.AlignRight)
         self.WEATER_FEELING.setAlignment(core.Qt.AlignmentFlag.AlignLeft)
 
-        layout = widgets.QVBoxLayout()
-        frame_line = Frame_create(layout=layout, width=314, height=1, color= "rgba(255, 255, 255, 0.5)")
+        self.layoutLine = widgets.QVBoxLayout()
+        self.frame_line = Frame_create(layout=self.layoutLine, width=314, height=1, color= "rgba(255, 255, 255, 0.5)")
         self.FRAME2_LAYOUT.addWidget(self.WEATER_FEELING)
         self.FRAME2_LAYOUT.addWidget(self.TEMP)
         self.LAYOUT_FRAME3.addWidget(self.CITY_NAME)
         self.LAYOUT_FRAME3.addWidget(self.TIME)
         self.FRAME_LAYOUT.addWidget(frame3)
-        self.LAYOUT.addWidget(frame_line)
+        self.LAYOUT.addWidget(self.frame_line)
         self.FRAME_LAYOUT.addWidget(frame_degree)
 
-        btn = widgets.QPushButton(parent= self)
-        btn.setStyleSheet("background-color: transparent")
-        btn.setFixedSize(330, 98)
-        btn.clicked.connect(self.test)
+        btn_card = widgets.QPushButton(parent= self)
+        btn_card.setStyleSheet("background-color: transparent")
+        btn_card.setFixedSize(330, 98)
+        btn_card.clicked.connect(self.test)
+        self.a = []
     def test(self):
-        print("card")
+        # Если есть уже выбранная карточка и это не текущая
+        if Card.active_card:
+            if Card.active_card is not self:
+                Card.active_card.reset_style()
+
+        Card.active_card = self
+
+        self.setStyleSheet("""
+            background-color: rgba(0, 0, 0, 51); 
+            border-radius: 8px;
+        """)
+        self.frame_line.setStyleSheet("background-color: transparent")
+
+    def reset_style(self):
+        self.setStyleSheet("""
+            background-color: transparent; 
+            border-radius: 8px;
+        """)
+        self.frame_line.setStyleSheet("background-color: rgba(255, 255, 255, 0.5)")

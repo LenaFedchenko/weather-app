@@ -33,8 +33,9 @@ class Scroll_frame(widgets.QScrollArea):
                 max_temp = max_t,
                 min_temp = min_t
                 )
-            
+
 
             self.SCROLL_FRAME_LAYOUT.addWidget(card)
+
 
 
