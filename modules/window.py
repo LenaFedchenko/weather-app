@@ -10,6 +10,7 @@ from .scroll_frame import Scroll_frame
 from .load_img import ImageLoad
 from .graphic import Graphic
 from .frame import Frame_create
+from .main_info_weather import MainInfoWeather
 
 class MainWindow(widgets.QMainWindow):
     def __init__(self, window_width: int, window_height: int):
@@ -40,23 +41,27 @@ class MainWindow(widgets.QMainWindow):
         self.CONTENT_FRAME_LAYOUT = widgets.QHBoxLayout()
         self.CONTENT_FRAME_LAYOUT.setAlignment(core.Qt.AlignmentFlag.AlignLeft)
         self.CONTENT_FRAME_LAYOUT.setContentsMargins(0, 0, 0, 0)
-        content_frame = Frame_create(layout= self.CONTENT_FRAME_LAYOUT)
+        self.content_frame = Frame_create(layout= self.CONTENT_FRAME_LAYOUT)
         # для того, что бы фон применялся не глобально
-        content_frame.setObjectName("CONTENT_FRAME")
-        content_frame.setLayout(self.CONTENT_FRAME_LAYOUT)
-        path = os.path.abspath(os.path.join(__file__, "..", "..", "media", "bg_color.png"))
-        content_frame.setStyleSheet(f"""
+        self.content_frame.setObjectName("CONTENT_FRAME")
+        self.content_frame.setLayout(self.CONTENT_FRAME_LAYOUT)
+        path = os.path.abspath(os.path.join(__file__, "..", "..", "media", "light_mode.png"))
+        self.content_frame.setStyleSheet(f"""
                                         #CONTENT_FRAME {{
                                         background-image: url({path});
                                         }}""")
         
-        self.CENTRAL_WIDGET_LAYOUT.addWidget(content_frame)
-
+        self.CENTRAL_WIDGET_LAYOUT.addWidget(self.content_frame)
+        
         self.LEFT_FRAME_LAYOUT = widgets.QVBoxLayout()
         left_frame = Frame_create(layout= self.LEFT_FRAME_LAYOUT, width=370, height= 800)
+        self.LAYOUT_RIGHT_FRAME = widgets.QVBoxLayout()
+        self.RIGHT_FRAME = Frame_create(self.LAYOUT_RIGHT_FRAME, 828, 800)
+        self.CONTENT_FRAME_LAYOUT.setContentsMargins(0, 0, 0, 0)
         left_frame.setLayout(self.LEFT_FRAME_LAYOUT)
         left_frame.setStyleSheet("background-color: rgba(0, 0, 0, 51)")
         self.CONTENT_FRAME_LAYOUT.addWidget(left_frame)
+        self.CONTENT_FRAME_LAYOUT.addWidget(self.RIGHT_FRAME)
         self.LEFT_FRAME_LAYOUT.setContentsMargins(0, 0, 0, 0)
 
         self.FRAME_BUTTON_LAYOUT = widgets.QVBoxLayout()
@@ -74,8 +79,14 @@ class MainWindow(widgets.QMainWindow):
             self.FLAF_SWITCH = not self.FLAF_SWITCH
             if self.FLAF_SWITCH:
                 self.path_btn = os.path.abspath(os.path.join(__file__, "..", "..", "media", "light_btn.png"))
+                path_mode = os.path.abspath(os.path.join(__file__, "..", "..", "media", "light_mode.png"))
             else:
                 self.path_btn = gui.QIcon(os.path.abspath(os.path.join(__file__, "..", "..", "media", "dark_btn.png")))
+                path_mode = os.path.abspath(os.path.join(__file__, "..", "..", "media", "dark_mode.png"))
+            self.content_frame.setStyleSheet(f"""
+                                    #CONTENT_FRAME {{
+                                    background-image: url({path_mode});
+                                    }}""")
             self.icon = gui.QIcon(self.path_btn)
             self.DARK_MODE_BUTTON.setIcon(self.icon)
 
@@ -88,9 +99,8 @@ class MainWindow(widgets.QMainWindow):
         scroll_area = Scroll_frame(left_frame)
         self.LEFT_FRAME_LAYOUT.addWidget(scroll_area)
         
-    
-
-        graphic = Graphic(self.CONTENT_FRAME_LAYOUT)
+        MAIN_WEATHER = MainInfoWeather(self.LAYOUT_RIGHT_FRAME)
+        graphic = Graphic(self.LAYOUT_RIGHT_FRAME)
 
 
 main_window = MainWindow(window_width = 1200, window_height = 800)
