@@ -5,12 +5,15 @@ from PIL.ImageQt import ImageQt
 import PyQt6.QtGui as gui
 
 
-class ImageLoad:
-    def __init__(self,width, height, frame, frame_layout, img):
-        self.image_logo = Image.open(os.path.abspath(os.path.join(__file__, "..", "..", "media", f"{img}")))
-        self.qt_image = ImageQt(self.image_logo)
-        self.label = widgets.QLabel(parent= frame)
-        self.pixmap = gui.QPixmap(gui.QImage(self.qt_image))
-        pixmap = self.pixmap.scaled(width, height)
-        self.label.setPixmap(pixmap)
-        frame_layout.addWidget(self.label)
+class ImageLoad(widgets.QLabel):
+    def __init__(self, width, height, frame, img):
+        super().__init__(parent=frame)
+        image_logo = Image.open(
+            os.path.abspath(
+                os.path.join(__file__, "..", "..", "media", img)
+            )
+        )
+        qt_image = ImageQt(image_logo)
+        pixmap = gui.QPixmap(gui.QImage(qt_image))
+        pixmap = pixmap.scaled(width, height)
+        self.setPixmap(pixmap)

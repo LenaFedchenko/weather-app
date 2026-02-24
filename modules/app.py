@@ -6,9 +6,3 @@ import sys
 widgets.QApplication.setAttribute(core.Qt.ApplicationAttribute.AA_ShareOpenGLContexts)
 
 app_obj = widgets.QApplication(sys.argv)
-
-app_obj.setStyleSheet("""
-    * {
-        font-family: 'Roboto';
-    }
-""")
