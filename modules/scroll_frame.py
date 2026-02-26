@@ -5,7 +5,7 @@ from .info_from_api import info_for_card
 from datetime import datetime, timedelta, timezone
 
 class Scroll_frame(widgets.QScrollArea):
-    def __init__(self, parent):
+    def __init__(self, parent, right_layout_frame, content_frame):
         widgets.QScrollArea.__init__(self, parent = parent)
         list_cities = [
             "Tokyo",
@@ -29,7 +29,9 @@ class Scroll_frame(widgets.QScrollArea):
         for city in list_cities:
             self.setWidget(self.SCROLL_FRAME)
             card = Card(
-                city_name_from_list= city
+                city_name_from_list= city,
+                right_layout_frame= right_layout_frame,
+                content_frame = content_frame 
                 )
 
 

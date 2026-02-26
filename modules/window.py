@@ -10,7 +10,7 @@ from .scroll_frame import Scroll_frame
 from .load_img import ImageLoad
 from .graphic import Graphic
 from .frame import Frame_create
-from .main_info_weather import MainInfoWeather
+# from .main_info_weather import MainInfoWeather
 
 class MainWindow(widgets.QMainWindow):
     def __init__(self, window_width: int, window_height: int):
@@ -96,11 +96,11 @@ class MainWindow(widgets.QMainWindow):
         self.DARK_MODE_BUTTON.clicked.connect(button_dark_pressed)
         self.LEFT_FRAME_LAYOUT.addWidget(frame_for_button)
 
-        scroll_area = Scroll_frame(left_frame)
-        self.LEFT_FRAME_LAYOUT.addWidget(scroll_area)
+        scroll_area = Scroll_frame(left_frame, self.LAYOUT_RIGHT_FRAME, self.LAYOUT_RIGHT_FRAME)
         
-        MAIN_WEATHER = MainInfoWeather(self.LAYOUT_RIGHT_FRAME)
-        graphic = Graphic(self.LAYOUT_RIGHT_FRAME)
+        # MAIN_WEATHER = MainInfoWeather(self.LAYOUT_RIGHT_FRAME)
+        self.LEFT_FRAME_LAYOUT.addWidget(scroll_area)
+        # graphic = Graphic(self.LAYOUT_RIGHT_FRAME)
 
 
 main_window = MainWindow(window_width = 1200, window_height = 800)

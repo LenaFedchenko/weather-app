@@ -4,10 +4,12 @@ from .frame import Frame_create
 from .load_img import ImageLoad
 from .info_from_api import info_for_card
 from datetime import datetime, timedelta, timezone
+from .main_info_weather import MainInfoWeather
+from .graphic import Graphic
 
 class Card(widgets.QFrame):
     active_card = None
-    def __init__(self, city_name_from_list):
+    def __init__(self, city_name_from_list, right_layout_frame, content_frame ):
         super().__init__()
         self.setFixedSize(core.QSize(330, 98))
         self.setStyleSheet("""
@@ -17,7 +19,8 @@ class Card(widgets.QFrame):
         self.LAYOUT = widgets.QVBoxLayout()
         self.LAYOUT.setContentsMargins(8, 8, 8, 8)
         self.setLayout(self.LAYOUT)
-
+        self.RIGHT_LAYOUT_FRAME = right_layout_frame
+        self.CONTENT_FRAME = content_frame
         self.FRAME_LAYOUT = widgets.QHBoxLayout()
         self.FRAME_LAYOUT.setContentsMargins(0, 0, 0, 8)
         self.FRAME2_LAYOUT = widgets.QHBoxLayout()
@@ -96,7 +99,6 @@ class Card(widgets.QFrame):
                 Card.active_card.reset_style()
 
         Card.active_card = self
-
         city_name, temp, info_weather, max_temp, min_temp, timezone_offset = info_for_card(self.city_name_from_list)
         self.CITY_NAME2 = city_name
         self.TEMP2 = temp
@@ -109,7 +111,15 @@ class Card(widgets.QFrame):
         self.utc_now = datetime.now(timezone.utc)
         self.city_time = self.utc_now + timedelta(seconds=self.TIME_ZONE)
         self.time_final = self.city_time.strftime("%H:%M")
-
+        date = self.city_time.strftime("%d/%m/%Y")
+        date = date.split("/")
+        new_date = ""
+        for num in date:
+            new_date += str(num) + "."
+        new_date = new_date[:-1]
+        day = self.city_time.strftime("%A")
+        infoweather = MainInfoWeather(self.RIGHT_LAYOUT_FRAME, self.DECS_WEATH, self.TEMP2, self.CITY_NAME2, self.MAX_TEMP, self.MIN_TEMP, day, new_date)
+        graphic = Graphic(content_frame = self.CONTENT_FRAME)
         # Обновляем визуальные элементы
         self.CITY_NAME.setText(self.CITY_NAME2)
         self.DEGREE.setText(f"{self.TEMP2}°")

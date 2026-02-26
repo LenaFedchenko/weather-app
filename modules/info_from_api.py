@@ -10,5 +10,5 @@ def info_for_card(city_name: str):
     min_temp = int(first["main"]["temp_min"])
     info_weather = first["weather"][0]["description"]
     timezone_offset = data["city"]["timezone"]
-
+    print(first["weather"][0]["icon"])
     return city_name, temp, info_weather, max_temp, min_temp, timezone_offset

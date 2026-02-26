@@ -6,7 +6,7 @@ import os
 from .load_img import ImageLoad
 
 class MainInfoWeather():
-    def __init__(self, content_frame):
+    def __init__(self, content_frame, desc, degree, city_name, max_temp, min_temp, day_param, date_param):
         self.FRAME_LAYOUT = widgets.QHBoxLayout()
         self.FRAME_LAYOUT.setContentsMargins(0, 0, 0, 0)
 
@@ -50,7 +50,7 @@ class MainInfoWeather():
 
         POSITION_LAYOUT.addWidget(group)
         POSITION_LAYOUT.addWidget(line)
-        self.LABEL_1 = widgets.QLabel("Дніпро")
+        self.LABEL_1 = widgets.QLabel(f"{city_name}")
         self.LABEL_1.setStyleSheet("font-size: 44px; background-color: transparent")
         self.LABEL_1.setAlignment(core.Qt.AlignmentFlag.AlignCenter)
 
@@ -60,18 +60,18 @@ class MainInfoWeather():
         degree_frame = Frame_create(degree_layout, 300, 100, color="transparent")
 
         img_weather = ImageLoad(96, 96, degree_frame, 'example.png')
-        self.LABEL_2 = widgets.QLabel("11°")
+        self.LABEL_2 = widgets.QLabel(f"{degree}°")
         self.LABEL_2.setStyleSheet("font-size: 74px; background-color: transparent")
         self.LABEL_2.setAlignment(core.Qt.AlignmentFlag.AlignCenter)
 
         degree_layout.addWidget(img_weather)
         degree_layout.addWidget(self.LABEL_2)
 
-        self.LABEL_3 = widgets.QLabel("Хмарно")
+        self.LABEL_3 = widgets.QLabel(f"{desc}")
         self.LABEL_3.setStyleSheet("font-size: 24px; background-color: transparent")
         self.LABEL_3.setAlignment(core.Qt.AlignmentFlag.AlignCenter)
 
-        self.LABEL_4 = widgets.QLabel("Макс.:11°, мін.:0°")
+        self.LABEL_4 = widgets.QLabel(f"Макс.:{max_temp}°, мін.:{min_temp}°")
         self.LABEL_4.setStyleSheet("font-size: 16px; background-color: transparent")
         self.LABEL_4.setAlignment(core.Qt.AlignmentFlag.AlignCenter)
 
@@ -103,22 +103,29 @@ class MainInfoWeather():
         group3_layout = widgets.QHBoxLayout()
         group3 = Frame_create(group3_layout, 358, 44, color= "transparent")
 
-        day = widgets.QLabel("Понеділок")
-        date = widgets.QLabel("24.03.2025")
+        day = widgets.QLabel(f"{day_param}")
+        date = widgets.QLabel(f"{date_param}")
         day.setStyleSheet("font-size: 24px")
         date.setStyleSheet("font-size: 24px")
         group3_layout.addWidget(day)
         group3_layout.addStretch()
         group3_layout.addWidget(date)
 
-        clock_layout = widgets.QVBoxLayout()
-        clock = Frame_create(clock_layout, width=168, height= 168)
+        clock_layout = widgets.QHBoxLayout()
         clock_layout.setAlignment(core.Qt.AlignmentFlag.AlignCenter)
-        clock.setStyleSheet(f"""
-                            border-radius: 80px; 
+        clock = Frame_create(clock_layout, width=150, height= 150)
+        clock.setObjectName("CLOCK")
+        clock.setStyleSheet(f"""#CLOCK{{
+                            border-radius: 70px; 
                             background-image: url({os.path.abspath(os.path.join(__file__, "..", "..", "media", "Ticks.png"))});
-                            """)
+        }}""")
+
+        
+        time = widgets.QLabel("15:24")
+        time.setStyleSheet("font-size: 29px; background-color: transparent")
+        clock_layout.addWidget(time)
 
         FRAME_LAYUOT1.addWidget(group2)
         FRAME_LAYUOT1.addWidget(group3)
         FRAME_LAYUOT1.addWidget(clock, alignment=core.Qt.AlignmentFlag.AlignCenter)
+    
