@@ -9,6 +9,8 @@ from .graphic import Graphic
 
 class Card(widgets.QFrame):
     active_card = None
+    active_info_weather = None
+    active_grafic = None
     def __init__(self, city_name_from_list, right_layout_frame, content_frame ):
         super().__init__()
         self.setFixedSize(core.QSize(330, 98))
@@ -32,7 +34,7 @@ class Card(widgets.QFrame):
         self.LAYOUT.addWidget(frame)
         self.LAYOUT.addWidget(frame2)
         self.city_name_from_list = city_name_from_list
-        city_name, temp, info_weather, max_temp, min_temp, timezone_offset = info_for_card(self.city_name_from_list)
+        city_name, temp, info_weather, max_temp, min_temp, timezone_offset, img = info_for_card(self.city_name_from_list)
         self.CITY_NAME2 = city_name
         # self.TIME2 = time
         self.TEMP2 = temp
@@ -91,15 +93,9 @@ class Card(widgets.QFrame):
         btn_card.setFixedSize(330, 98)
         btn_card.clicked.connect(self.select_card)
     
-    
+        
     def select_card(self):
-        # Сброс предыдущей активной карточки
-        if Card.active_card:
-            if Card.active_card is not self:
-                Card.active_card.reset_style()
-
-        Card.active_card = self
-        city_name, temp, info_weather, max_temp, min_temp, timezone_offset = info_for_card(self.city_name_from_list)
+        city_name, temp, info_weather, max_temp, min_temp, timezone_offset, img = info_for_card(self.city_name_from_list)
         self.CITY_NAME2 = city_name
         self.TEMP2 = temp
         self.MAX_TEMP = max_temp
@@ -117,10 +113,48 @@ class Card(widgets.QFrame):
         for num in date:
             new_date += str(num) + "."
         new_date = new_date[:-1]
-        day = self.city_time.strftime("%A")
-        infoweather = MainInfoWeather(self.RIGHT_LAYOUT_FRAME, self.DECS_WEATH, self.TEMP2, self.CITY_NAME2, self.MAX_TEMP, self.MIN_TEMP, day, new_date)
-        graphic = Graphic(content_frame = self.CONTENT_FRAME)
-        # Обновляем визуальные элементы
+        days_ua = {
+            "Monday": "Понеділок",
+            "Tuesday": "Вівторок",
+            "Wednesday": "Середа",
+            "Thursday": "Четвер",
+            "Friday": "Пʼятниця",
+            "Saturday": "Субота",
+            "Sunday": "Неділя",
+        }
+
+        day_en = self.city_time.strftime("%A")
+        day = days_ua.get(day_en, day_en)
+        
+        # Сброс предыдущей активной карточки
+        if Card.active_card:
+            if Card.active_card is not self:
+                Card.active_card.reset_style()
+        # Удаляем предыдущий MainInfoWeather
+        if Card.active_info_weather:
+            Card.active_info_weather.delete()
+            Card.active_info_weather = None
+        if Card.active_grafic:
+            Card.active_grafic.delete_graphic()
+            Card.active_grafic = None
+        # Создаём новый
+        Card.active_card = self
+        Card.active_info_weather = MainInfoWeather(
+            self.RIGHT_LAYOUT_FRAME,
+            self.DECS_WEATH,
+            self.TEMP2,
+            self.CITY_NAME2,
+            self.MAX_TEMP,
+            self.MIN_TEMP,
+            day,
+            new_date,
+            self.time_final,
+            img
+        )
+        Card.active_grafic = Graphic(
+            self.CONTENT_FRAME
+        )
+        # Обновляем визуальные элементы после новых запросов в апи
         self.CITY_NAME.setText(self.CITY_NAME2)
         self.DEGREE.setText(f"{self.TEMP2}°")
         self.TEMP.setText(f"Макс.:{self.MAX_TEMP}°, мін.:{self.MIN_TEMP}°")

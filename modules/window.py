@@ -5,12 +5,8 @@ import PyQt6.QtGui as gui
 
 from .app import app_obj
 from .title_bar import Title_bar
-from utils import api_request
 from .scroll_frame import Scroll_frame
-from .load_img import ImageLoad
-from .graphic import Graphic
 from .frame import Frame_create
-# from .main_info_weather import MainInfoWeather
 
 class MainWindow(widgets.QMainWindow):
     def __init__(self, window_width: int, window_height: int):
@@ -59,7 +55,7 @@ class MainWindow(widgets.QMainWindow):
         self.RIGHT_FRAME = Frame_create(self.LAYOUT_RIGHT_FRAME, 828, 800)
         self.CONTENT_FRAME_LAYOUT.setContentsMargins(0, 0, 0, 0)
         left_frame.setLayout(self.LEFT_FRAME_LAYOUT)
-        left_frame.setStyleSheet("background-color: rgba(0, 0, 0, 51)")
+        left_frame.setStyleSheet("background-color: rgba(0, 0, 0, 100)")
         self.CONTENT_FRAME_LAYOUT.addWidget(left_frame)
         self.CONTENT_FRAME_LAYOUT.addWidget(self.RIGHT_FRAME)
         self.LEFT_FRAME_LAYOUT.setContentsMargins(0, 0, 0, 0)
@@ -98,9 +94,7 @@ class MainWindow(widgets.QMainWindow):
 
         scroll_area = Scroll_frame(left_frame, self.LAYOUT_RIGHT_FRAME, self.LAYOUT_RIGHT_FRAME)
         
-        # MAIN_WEATHER = MainInfoWeather(self.LAYOUT_RIGHT_FRAME)
         self.LEFT_FRAME_LAYOUT.addWidget(scroll_area)
-        # graphic = Graphic(self.LAYOUT_RIGHT_FRAME)
 
 
 main_window = MainWindow(window_width = 1200, window_height = 800)

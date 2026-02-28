@@ -6,12 +6,12 @@ import os
 from .load_img import ImageLoad
 
 class MainInfoWeather():
-    def __init__(self, content_frame, desc, degree, city_name, max_temp, min_temp, day_param, date_param):
+    def __init__(self, content_frame, desc, degree, city_name, max_temp, min_temp, day_param, date_param, time_clock, name_img):
         self.FRAME_LAYOUT = widgets.QHBoxLayout()
         self.FRAME_LAYOUT.setContentsMargins(0, 0, 0, 0)
 
-        frame_all = Frame_create(layout=self.FRAME_LAYOUT, width=788, height=303)
-        content_frame.addWidget(frame_all)
+        self.frame_all = Frame_create(layout=self.FRAME_LAYOUT, width=788, height=303)
+        content_frame.addWidget(self.frame_all)
 
         WEATHER_LAYOUT = widgets.QVBoxLayout()
         WEATHER_LAYOUT.setAlignment(core.Qt.AlignmentFlag.AlignTop)
@@ -59,7 +59,7 @@ class MainInfoWeather():
 
         degree_frame = Frame_create(degree_layout, 300, 100, color="transparent")
 
-        img_weather = ImageLoad(96, 96, degree_frame, 'example.png')
+        img_weather = ImageLoad(126, 126, degree_frame, f'{name_img}')
         self.LABEL_2 = widgets.QLabel(f"{degree}°")
         self.LABEL_2.setStyleSheet("font-size: 74px; background-color: transparent")
         self.LABEL_2.setAlignment(core.Qt.AlignmentFlag.AlignCenter)
@@ -121,11 +121,12 @@ class MainInfoWeather():
         }}""")
 
         
-        time = widgets.QLabel("15:24")
+        time = widgets.QLabel(f"{time_clock}")
         time.setStyleSheet("font-size: 29px; background-color: transparent")
         clock_layout.addWidget(time)
 
         FRAME_LAYUOT1.addWidget(group2)
         FRAME_LAYUOT1.addWidget(group3)
         FRAME_LAYUOT1.addWidget(clock, alignment=core.Qt.AlignmentFlag.AlignCenter)
-    
+    def delete(self):
+        self.frame_all.setParent(None)

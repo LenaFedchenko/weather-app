@@ -8,14 +8,15 @@ class Scroll_frame(widgets.QScrollArea):
     def __init__(self, parent, right_layout_frame, content_frame):
         widgets.QScrollArea.__init__(self, parent = parent)
         list_cities = [
-            "Tokyo",
-            "Sydney",
-            "Berlin",
-            "Toronto",
-            "Barcelona",
-            "Dubai",
-            "Cape Town",
-            "Dnipro"
+            "Лондон",
+            "Барселона",
+            "Київ",
+            "Осло",
+            "Софія",
+            "Ліс",
+            "Сан-Паулу",
+            "Мюнхен",
+            "Сан-Франциско"
         ]
         self.setVerticalScrollBarPolicy(core.Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.setFixedSize(370, 727)
@@ -31,7 +32,7 @@ class Scroll_frame(widgets.QScrollArea):
             card = Card(
                 city_name_from_list= city,
                 right_layout_frame= right_layout_frame,
-                content_frame = content_frame 
+                content_frame = content_frame
                 )
 
 
