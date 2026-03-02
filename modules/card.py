@@ -6,11 +6,13 @@ from .info_from_api import info_for_card
 from datetime import datetime, timedelta, timezone
 from .main_info_weather import MainInfoWeather
 from .graphic import Graphic
+from .weather_per_hour import Weather_per_hour
 
 class Card(widgets.QFrame):
     active_card = None
     active_info_weather = None
     active_grafic = None
+    active_per_hour = None
     def __init__(self, city_name_from_list, right_layout_frame, content_frame ):
         super().__init__()
         self.setFixedSize(core.QSize(330, 98))
@@ -102,7 +104,7 @@ class Card(widgets.QFrame):
         self.MIN_TEMP = min_temp
         self.DECS_WEATH = info_weather
         self.TIME_ZONE = timezone_offset
-
+        
         # текущее UTC время
         self.utc_now = datetime.now(timezone.utc)
         self.city_time = self.utc_now + timedelta(seconds=self.TIME_ZONE)
@@ -137,6 +139,9 @@ class Card(widgets.QFrame):
         if Card.active_grafic:
             Card.active_grafic.delete_graphic()
             Card.active_grafic = None
+        if Card.active_per_hour:
+            Card.active_per_hour.weather_per_hour()
+            Card.active_per_hour = None
         # Создаём новый
         Card.active_card = self
         Card.active_info_weather = MainInfoWeather(
@@ -150,6 +155,9 @@ class Card(widgets.QFrame):
             new_date,
             self.time_final,
             img
+        )
+        Card.active_per_hour = Weather_per_hour(
+            frame = self.RIGHT_LAYOUT_FRAME
         )
         Card.active_grafic = Graphic(
             self.CONTENT_FRAME
