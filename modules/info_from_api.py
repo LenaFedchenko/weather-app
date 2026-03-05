@@ -6,6 +6,7 @@ def info_for_card(city_name: str):
     first = data["list"][0]  # берем первый час
 
     temp = int(first["main"]["temp"])
+    # print(temp)
     max_temp = int(first["main"]["temp_max"])
     min_temp = int(first["main"]["temp_min"])
     info_weather = first["weather"][0]["description"]
@@ -19,9 +20,9 @@ def info_for_card(city_name: str):
         "хмарно": "cloud.png",
         "дощ": "rain.png",
         "гроза": "thenderstorm.png",
-        "сніг": "snow.png",
-        "туман": "fog.png"
+        "легкий сніг": "snow.png",
+        "туман": "fog.png",
+        "кілька хмар": "few_clouds.png"
     }
     icon_get = icon_dict[icon]
-    # print(icon_get)
     return city_name, temp, info_weather, max_temp, min_temp, timezone_offset, icon_get

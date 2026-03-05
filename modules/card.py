@@ -67,7 +67,8 @@ class Card(widgets.QFrame):
         frame_degree = Frame_create(layout=self.LAYOUT_DEGREE, width=67, height=52)
         self.DEGREE = widgets.QLabel(parent= frame_degree, text= f"{self.TEMP2}°") 
         self.DEGREE.setStyleSheet("font-size: 40px; background-color: transparent; font-weight: 700") 
-
+        if len(self.CITY_NAME2) > 5:
+            self.CITY_NAME2 = self.CITY_NAME2[:4] + "..."
         self.CITY_NAME = widgets.QLabel(parent= frame3, text= self.CITY_NAME2)
         self.TIME = widgets.QLabel(parent= frame3, text=self.time_final)
         self.CITY_NAME.setStyleSheet("font-size: 24px; background-color: transparent; font-weight: 700")
@@ -157,11 +158,15 @@ class Card(widgets.QFrame):
             img
         )
         Card.active_per_hour = Weather_per_hour(
-            frame = self.RIGHT_LAYOUT_FRAME
+            frame = self.RIGHT_LAYOUT_FRAME,
+            name_city= self.CITY_NAME2
         )
         Card.active_grafic = Graphic(
-            self.CONTENT_FRAME
+            self.CONTENT_FRAME,
+            self.CITY_NAME2
         )
+        if len(self.CITY_NAME2) > 5:
+            self.CITY_NAME2 = self.CITY_NAME2[:4] + "..."
         # Обновляем визуальные элементы после новых запросов в апи
         self.CITY_NAME.setText(self.CITY_NAME2)
         self.DEGREE.setText(f"{self.TEMP2}°")

@@ -4,9 +4,11 @@ import PyQt6.QtGui as gui
 from .frame import Frame_create
 from .load_img import ImageLoad
 import os
+from utils.api_request import api_request_func
 
 class Weather_per_hour:
-    def __init__(self, frame):
+    def __init__(self, frame, name_city):
+        data_dict = api_request_func(name_city)
         self.LAYOUT_MAIN = widgets.QVBoxLayout()
         self.LAYOUT_MAIN.setAlignment(core.Qt.AlignmentFlag.AlignLeft)
         self.FRAME_MAIN = Frame_create(self.LAYOUT_MAIN, width = 788, height = 157)
@@ -39,7 +41,7 @@ class Weather_per_hour:
         self.BUTTON.setIcon(self.ICON_BUTTON)
         # self.BUTTON.setIconSize(core.QSize(40, 82))
         self.FRAME_PEAGTIJ_LAYOUT.addWidget(self.BUTTON)
-
+        self.BUTTON.clicked.connect(self.scroll_to_start)
         
         self.SCROLL_WEATHER = widgets.QScrollArea(parent= self.FRAME_PAERT)
         self.SCROLL_WEATHER.setHorizontalScrollBarPolicy(core.Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
@@ -51,12 +53,19 @@ class Weather_per_hour:
         self.SCROLL_FRAME_WEATHER_LAYOUT.setContentsMargins(0, 0, 0, 0)
         self.SCROLL_FRAME_WEATHER_LAYOUT.setSpacing(0)
         self.SCROLL_FRAME_WEATHER.setLayout(self.SCROLL_FRAME_WEATHER_LAYOUT)
-        for i in range(25):
+        list_temp_time = []
+        # list_time = []
+        for hour_data in data_dict["list"]:
+            temperature = int(hour_data["main"]["temp"])
+            # list_temp_time.append(temperature)
+            time = hour_data["dt_txt"]
+            list_temp_time.append((temperature, time[11:13]))
+        for temp, time2 in list_temp_time:
             self.SCROLL_WEATHER.setWidget(self.SCROLL_FRAME_WEATHER)
             self.HORIZONTAL_LAYOUT = widgets.QVBoxLayout()
             self.FRAME_MAIN2 = Frame_create(self.HORIZONTAL_LAYOUT, width = 50, height = 92, color= "transparent")
-            self.LABEL_TIME = widgets.QLabel("22")
-            self.LABEL_MIN_TEMP = widgets.QLabel("0°")
+            self.LABEL_TIME = widgets.QLabel(f"{time2}")
+            self.LABEL_MIN_TEMP = widgets.QLabel(f"{temp}°")
             self.HORIZONTAL_LAYOUT.addWidget(self.LABEL_TIME)
             self.IMAGE = ImageLoad(25, 25, self.FRAME_MAIN2, 'example.png')
             self.HORIZONTAL_LAYOUT.addWidget(self.IMAGE)
@@ -72,6 +81,15 @@ class Weather_per_hour:
         self.BUTTON2.setIcon(self.ICON_BUTTON2)
         # self.BUTTON2.setIconSize(core.QSize(40, 82))
         self.FRAME_PEAGTIJ_LAYOUT.addWidget(self.BUTTON2)
+        self.BUTTON2.clicked.connect(self.scroll_to_end)
 
     def weather_per_hour(self):
         self.FRAME_MAIN.setParent(None)
+    def scroll_to_end(self):
+        """Прокрутка QScrollArea в конец по вертикали"""
+        scrollbar = self.SCROLL_WEATHER.horizontalScrollBar()
+        scrollbar.setValue(scrollbar.maximum())
+    def scroll_to_start(self):
+        """Прокрутка QScrollArea в начало по вертикали"""
+        scrollbar = self.SCROLL_WEATHER.horizontalScrollBar() 
+        scrollbar.setValue(scrollbar.minimum())

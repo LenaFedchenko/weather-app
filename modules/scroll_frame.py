@@ -18,11 +18,14 @@ class Scroll_frame(widgets.QScrollArea):
             "Чернівці",
             "Тернопіль"
         ]
+        
         self.setVerticalScrollBarPolicy(core.Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.setFixedSize(370, 727)
         self.setStyleSheet("border: none; background-color: transparent")
         self.setWidgetResizable(True)
         self.SCROLL_FRAME = widgets.QFrame(parent = self)
+        
+        
         self.SCROLL_FRAME_LAYOUT = widgets.QVBoxLayout()
         self.SCROLL_FRAME_LAYOUT.setSpacing(0)
         self.SCROLL_FRAME.setLayout(self.SCROLL_FRAME_LAYOUT)
@@ -34,7 +37,6 @@ class Scroll_frame(widgets.QScrollArea):
                 right_layout_frame= right_layout_frame,
                 content_frame = content_frame
                 )
-
 
             self.SCROLL_FRAME_LAYOUT.addWidget(card)
 
