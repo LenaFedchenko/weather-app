@@ -20,7 +20,7 @@ class Graphic:
         FRAME1_LAYOUT.setSpacing(0)
         frame1 = Frame_create(layout= FRAME1_LAYOUT, color="transparent", width=730, height= 34)
         for i in range(11):
-            IMAGE = ImageLoad(16, 16, frame1, 'IMG.png')
+            IMAGE = ImageLoad(16, 16, frame1, 'example.png')
             FRAME1_LAYOUT.addWidget(IMAGE)
         self.FRAME_LAYOUT.addWidget(frame1)
 

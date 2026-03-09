@@ -7,12 +7,14 @@ from datetime import datetime, timedelta, timezone
 from .main_info_weather import MainInfoWeather
 from .graphic import Graphic
 from .weather_per_hour import Weather_per_hour
+from .search import Block_search
 
 class Card(widgets.QFrame):
     active_card = None
     active_info_weather = None
     active_grafic = None
     active_per_hour = None
+    active_search = None
     def __init__(self, city_name_from_list, right_layout_frame, content_frame ):
         super().__init__()
         self.setFixedSize(core.QSize(330, 98))
@@ -128,7 +130,8 @@ class Card(widgets.QFrame):
 
         day_en = self.city_time.strftime("%A")
         day = days_ua.get(day_en, day_en)
-        
+        if Card.active_search:
+            Card.active_search.reset_search()
         # Сброс предыдущей активной карточки
         if Card.active_card:
             if Card.active_card is not self:
@@ -145,6 +148,9 @@ class Card(widgets.QFrame):
             Card.active_per_hour = None
         # Создаём новый
         Card.active_card = self
+        Card.active_search = Block_search(
+            parent= self.RIGHT_LAYOUT_FRAME
+        )
         Card.active_info_weather = MainInfoWeather(
             self.RIGHT_LAYOUT_FRAME,
             self.DECS_WEATH,

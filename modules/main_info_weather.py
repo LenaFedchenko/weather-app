@@ -59,7 +59,7 @@ class MainInfoWeather():
 
         degree_frame = Frame_create(degree_layout, 300, 100, color="transparent")
 
-        img_weather = ImageLoad(126, 126, degree_frame, f'{name_img}')
+        img_weather = ImageLoad(126, 126, degree_frame, f'main_icons/{name_img}')
         self.LABEL_2 = widgets.QLabel(f"{degree}°")
         self.LABEL_2.setStyleSheet("font-size: 74px; background-color: transparent")
         self.LABEL_2.setAlignment(core.Qt.AlignmentFlag.AlignCenter)
