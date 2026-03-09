@@ -39,7 +39,6 @@ class Weather_per_hour:
         self.path_img = os.path.abspath(os.path.join(__file__, "..", "..", "media", "btn_scroll.png"))
         self.ICON_BUTTON = gui.QIcon(self.path_img)
         self.BUTTON.setIcon(self.ICON_BUTTON)
-        # self.BUTTON.setIconSize(core.QSize(40, 82))
         self.FRAME_PEAGTIJ_LAYOUT.addWidget(self.BUTTON)
         self.BUTTON.clicked.connect(self.scroll_to_start)
         
@@ -59,8 +58,10 @@ class Weather_per_hour:
             temperature = int(hour_data["main"]["temp"])
             # list_temp_time.append(temperature)
             time = hour_data["dt_txt"]
-            list_temp_time.append((temperature, time[11:13]))
-        for temp, time2 in list_temp_time:
+            icon_list = hour_data["weather"][0]["icon"]
+            list_temp_time.append((temperature, time[11:13], icon_list))
+        for temp, time2, icon in list_temp_time:
+            print(icon)
             self.SCROLL_WEATHER.setWidget(self.SCROLL_FRAME_WEATHER)
             self.HORIZONTAL_LAYOUT = widgets.QVBoxLayout()
             self.FRAME_MAIN2 = Frame_create(self.HORIZONTAL_LAYOUT, width = 50, height = 92, color= "transparent")
