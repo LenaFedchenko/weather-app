@@ -10,7 +10,12 @@ class Scroll_frame(widgets.QScrollArea):
         list_cities = [
             "Дніпро",
             "Київ",
-            
+            "Львів",
+            "Харків",
+            "Луцьк",
+            "Маріуполь",
+            "Івано-Франківськ",
+            "Луганськ"
         ]
         
         self.setVerticalScrollBarPolicy(core.Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
