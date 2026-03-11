@@ -53,18 +53,16 @@ class Graphic:
         data_dict = api_request_func(name_city)
         list_temp = []
         for hour_data in data_dict["list"]:
+            # if int(hour_data["main"]["temp"]) not in list_temp:
             list_temp.append(int(hour_data["main"]["temp"]))
             temperature = int(hour_data["main"]["temp"])
             
             height = 0
             
-            if temperature < 0 :
-                height = (temperature * -2)  + 60
-            elif temperature == 0:
-                height = 80
-                
-            else:
-                height = temperature * 2 
+            base_height = 70
+            scale = 2
+            height = base_height + (temperature * scale)
+            height = max(height, 20)
             height = max(height, 60)
             self.COLUMN = widgets.QFrame(temperature_graph_frame)
             self.COLUMN.setFixedSize(core.QSize(8, height))
@@ -77,7 +75,7 @@ class Graphic:
         list_temp.sort(reverse= True)
         new_list_temp = []
         for i in list_temp:
-            if i is not new_list_temp:
+            if i not in new_list_temp:
                 new_list_temp.append(i)
         a = 0
         for i in new_list_temp:

@@ -61,14 +61,14 @@ class Weather_per_hour:
             icon_list = hour_data["weather"][0]["icon"]
             list_temp_time.append((temperature, time[11:13], icon_list))
         for temp, time2, icon in list_temp_time:
-            print(icon)
+            # print(icon)
             self.SCROLL_WEATHER.setWidget(self.SCROLL_FRAME_WEATHER)
             self.HORIZONTAL_LAYOUT = widgets.QVBoxLayout()
             self.FRAME_MAIN2 = Frame_create(self.HORIZONTAL_LAYOUT, width = 50, height = 92, color= "transparent")
             self.LABEL_TIME = widgets.QLabel(f"{time2}")
             self.LABEL_MIN_TEMP = widgets.QLabel(f"{temp}°")
             self.HORIZONTAL_LAYOUT.addWidget(self.LABEL_TIME)
-            self.IMAGE = ImageLoad(25, 25, self.FRAME_MAIN2, 'example.png')
+            self.IMAGE = ImageLoad(25, 25, self.FRAME_MAIN2, f'mini_icons/{icon}.png')
             self.HORIZONTAL_LAYOUT.addWidget(self.IMAGE)
             self.HORIZONTAL_LAYOUT.addWidget(self.LABEL_MIN_TEMP)
 
