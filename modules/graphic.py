@@ -7,6 +7,7 @@ from .load_img import ImageLoad
 
 class Graphic:
     def __init__(self, content_frame, name_city):
+        data_dict = api_request_func(name_city)
         self.FRAME_LAYOUT = widgets.QVBoxLayout()
         self.frame = Frame_create(self.FRAME_LAYOUT, color="transparent",  width=799, height= 197)
         self.frame.setStyleSheet("background-color: rgba(0, 0, 0, 51); border-radius: 10px")
@@ -19,8 +20,11 @@ class Graphic:
         FRAME1_LAYOUT.setContentsMargins(0, 0, 0, 0)
         FRAME1_LAYOUT.setSpacing(0)
         frame1 = Frame_create(layout= FRAME1_LAYOUT, color="transparent", width=730, height= 34)
-        for i in range(11):
-            IMAGE = ImageLoad(16, 16, frame1, 'example.png')
+        list_icons = []
+        for hour_data in data_dict["list"]:
+            list_icons.append(hour_data["weather"][0]["icon"]) 
+        for icon in list_icons[:21]:
+            IMAGE = ImageLoad(16, 16, frame1, f'mini_icons/{icon}.png')
             FRAME1_LAYOUT.addWidget(IMAGE)
         self.FRAME_LAYOUT.addWidget(frame1)
 

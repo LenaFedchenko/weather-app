@@ -9,6 +9,15 @@ from utils.api_request import api_request_func
 class Weather_per_hour:
     def __init__(self, frame, name_city):
         data_dict = api_request_func(name_city)
+        list_temp_time = []
+        descrip = []
+        for hour_data in data_dict["list"]:
+            temperature = int(hour_data["main"]["temp"])
+            # list_temp_time.append(temperature)
+            time = hour_data["dt_txt"]
+            icon_list = hour_data["weather"][0]["icon"]
+            list_temp_time.append((temperature, time[11:13], icon_list))
+            descrip.append(hour_data["weather"][0]["description"])
         self.LAYOUT_MAIN = widgets.QVBoxLayout()
         self.LAYOUT_MAIN.setAlignment(core.Qt.AlignmentFlag.AlignLeft)
         self.FRAME_MAIN = Frame_create(self.LAYOUT_MAIN, width = 788, height = 157)
@@ -27,7 +36,7 @@ class Weather_per_hour:
         self.FRAME_PEAGTIJ_LAYOUT.setContentsMargins(0, 0, 0, 0)
         self.LAYOUT_MAIN.addWidget(self.FRAME_PAERT)
         
-        self.LABEL = widgets.QLabel("Хмарна погода до кінця дня")
+        self.LABEL = widgets.QLabel(f"{descrip[0].capitalize()} до кінця дня")
         line = Frame_create(widgets.QVBoxLayout(), 756, 1, "white")
 
         self.FRAME_TEXT_LAYOUT.addWidget(self.LABEL)
@@ -52,14 +61,8 @@ class Weather_per_hour:
         self.SCROLL_FRAME_WEATHER_LAYOUT.setContentsMargins(0, 0, 0, 0)
         self.SCROLL_FRAME_WEATHER_LAYOUT.setSpacing(0)
         self.SCROLL_FRAME_WEATHER.setLayout(self.SCROLL_FRAME_WEATHER_LAYOUT)
-        list_temp_time = []
+        
         # list_time = []
-        for hour_data in data_dict["list"]:
-            temperature = int(hour_data["main"]["temp"])
-            # list_temp_time.append(temperature)
-            time = hour_data["dt_txt"]
-            icon_list = hour_data["weather"][0]["icon"]
-            list_temp_time.append((temperature, time[11:13], icon_list))
         for temp, time2, icon in list_temp_time:
             # print(icon)
             self.SCROLL_WEATHER.setWidget(self.SCROLL_FRAME_WEATHER)

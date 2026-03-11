@@ -26,13 +26,11 @@ class MainInfoWeather():
 
         POSITION_LAYOUT = widgets.QVBoxLayout()
         POSITION_LAYOUT.setContentsMargins(0, 0, 0, 0)
-        POSITION_LAYOUT.setSpacing(5)
 
         POSITION = Frame_create(POSITION_LAYOUT, 358, 50, "transparent")
 
         group_layout = widgets.QHBoxLayout()
         group_layout.setAlignment(core.Qt.AlignmentFlag.AlignLeft)
-        group_layout.setSpacing(5)
 
         group = Frame_create(group_layout, 358, 40, "transparent")
 

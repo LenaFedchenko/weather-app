@@ -35,7 +35,7 @@ class MainWindow(widgets.QMainWindow):
         
 
         self.CONTENT_FRAME_LAYOUT = widgets.QHBoxLayout()
-        self.CONTENT_FRAME_LAYOUT.setAlignment(core.Qt.AlignmentFlag.AlignLeft)
+        # self.CONTENT_FRAME_LAYOUT.setAlignment(core.Qt.AlignmentFlag.AlignLeft)
         self.CONTENT_FRAME_LAYOUT.setContentsMargins(0, 0, 0, 0)
         self.content_frame = Frame_create(layout= self.CONTENT_FRAME_LAYOUT)
         # для того, что бы фон применялся не глобально
@@ -52,9 +52,10 @@ class MainWindow(widgets.QMainWindow):
         self.LEFT_FRAME_LAYOUT = widgets.QVBoxLayout()
         left_frame = Frame_create(layout= self.LEFT_FRAME_LAYOUT, width=370, height= 800)
         self.LAYOUT_RIGHT_FRAME = widgets.QVBoxLayout()
-        self.LAYOUT_RIGHT_FRAME.setContentsMargins(0, 0, 0, 0)
         self.RIGHT_FRAME = Frame_create(self.LAYOUT_RIGHT_FRAME, 828, 800)
-        self.LAYOUT_RIGHT_FRAME.setContentsMargins(0, 0, 0, 10)
+        self.RIGHT_FRAME.setContentsMargins(0, 0, 0, 0)
+        self.LAYOUT_RIGHT_FRAME.setContentsMargins(0, 0, 0, 0)
+        self.LAYOUT_RIGHT_FRAME.setSpacing(0)
         left_frame.setLayout(self.LEFT_FRAME_LAYOUT)
         left_frame.setStyleSheet("background-color: rgba(0, 0, 0, 100)")
         self.CONTENT_FRAME_LAYOUT.addWidget(left_frame)

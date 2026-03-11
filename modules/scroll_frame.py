@@ -10,13 +10,7 @@ class Scroll_frame(widgets.QScrollArea):
         list_cities = [
             "Дніпро",
             "Київ",
-            "Львів",
-            "Одеса",
-            "Харків",
-            "Запоріжжя",
-            "Івано-Франківськ",
-            "Чернівці",
-            "Тернопіль"
+            
         ]
         
         self.setVerticalScrollBarPolicy(core.Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
@@ -25,9 +19,10 @@ class Scroll_frame(widgets.QScrollArea):
         self.setWidgetResizable(True)
         self.SCROLL_FRAME = widgets.QFrame(parent = self)
         
-        
         self.SCROLL_FRAME_LAYOUT = widgets.QVBoxLayout()
         self.SCROLL_FRAME_LAYOUT.setSpacing(0)
+        self.SCROLL_FRAME_LAYOUT.setContentsMargins(0, 0, 0, 0)
+        self.SCROLL_FRAME_LAYOUT.setAlignment(core.Qt.AlignmentFlag.AlignTop)
         self.SCROLL_FRAME.setLayout(self.SCROLL_FRAME_LAYOUT)
             
         for city in list_cities:
