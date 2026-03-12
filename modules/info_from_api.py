@@ -1,5 +1,4 @@
-from utils.api_request import api_request_func
-
+from utils.api_request import api_request_func, api_request_city
 
 def info_for_card(city_name: str):
     data = api_request_func(city_name)  # почасовой прогноз
@@ -35,3 +34,11 @@ def info_for_card(city_name: str):
     }
     icon_get = icon_dict[icon]
     return city_name, temp, info_weather, max_temp, min_temp, timezone_offset, icon_get
+
+
+def info_cityes():
+    list_city = []
+    api_request = api_request_city()
+    for i in api_request["data"]:
+        list_city.append(i["city"])
+    return list_city

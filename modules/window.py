@@ -102,16 +102,27 @@ class MainWindow(widgets.QMainWindow):
         self.BUTTON_ENTER  = None
         self.active_search.SEARCH_BOX.textChanged.connect(self.result_search)
         self.LEFT_FRAME_LAYOUT.addWidget(self.scroll_area)
-        
+        self.count = 0
     def result_search(self):
+        self.TEXT_ENTER1 = self.active_search.SEARCH_BOX.text()
         if self.BUTTON_ENTER == None:
             self.BUTTON_ENTER = widgets.QPushButton("Додати")
             self.BUTTON_ENTER.setFixedSize(97, 36)
             self.BUTTON_ENTER.clicked.connect(self.add_city)
             self.BUTTON_ENTER.setStyleSheet("border-radius: 4px; background-color: rgba(0, 0, 0, 100); font-size: 17px")
+        if len(self.active_search.SEARCH_BOX.text())>=2:
+            if self.count >= 1:
+                self.active_search.reset_search()
+                self.count = 0
+            self.active_search.modal_search(frame = self.RIGHT_FRAME, entered_text = self.TEXT_ENTER1)
+            self.active_search.button_city.clicked.connect(self.add_city)
+            self.count += 1
+            
         self.active_search.LAYOUT.insertWidget(2, self.BUTTON_ENTER)
         # self.active_search.LAYOUT.addWidget(self.BUTTON_ENTER)
     def add_city(self):
         self.TEXT_ENTER = self.active_search.SEARCH_BOX.text()
+        self.TEXT_ENTER = self.active_search.button_city.text()
+        self.active_search.reset_search()
         self.scroll_area.city_list(self.TEXT_ENTER)
 main_window = MainWindow(window_width = 1200, window_height = 800)

@@ -42,12 +42,15 @@ class Scroll_frame(widgets.QScrollArea):
     def city_list(self, city):
         self.LIST_CITY = city
         self.setWidget(self.SCROLL_FRAME)
-        card = Card(
-            city_name_from_list= self.LIST_CITY,
-            right_layout_frame= self.right_layout_frame,
-            content_frame = self.content_frame
-            )
-        self.SCROLL_FRAME_LAYOUT.addWidget(card)
+        try:
+            card = Card(
+                city_name_from_list= self.LIST_CITY,
+                right_layout_frame= self.right_layout_frame,
+                content_frame = self.content_frame
+                )
+            self.SCROLL_FRAME_LAYOUT.addWidget(card)
+        except:
+            print("error")
 
 
 

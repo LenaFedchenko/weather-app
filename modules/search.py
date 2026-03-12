@@ -4,6 +4,7 @@ import PyQt6.QtGui as gui
 import os
 from .frame import Frame_create
 from .load_img import ImageLoad
+from .info_from_api import info_cityes
 
 
 class Block_search:
@@ -48,4 +49,30 @@ class Block_search:
         self.SEARCH_LAYOUT.addWidget(self.SEARCH_BOX, core.Qt.AlignmentFlag.AlignLeft)
 
     def reset_search(self):
-        self.block_parent.setParent(None)
+        self.MODAL.setParent(None)
+    
+    def modal_search(self, frame, entered_text):
+        self.MODAL = widgets.QWidget(parent = frame)
+        # print(entered_text)
+        MODAL_LAYOUT = widgets.QVBoxLayout()
+        MODAL_LAYOUT.setAlignment(core.Qt.AlignmentFlag.AlignLeft)
+        self.MODAL.setLayout(MODAL_LAYOUT)
+        self.MODAL.setStyleSheet(f"border-radius: 16px; background-color: rgba(0, 0, 0, 51)")
+        
+        self.MODAL.setGeometry(
+            (1200 // 2) - 426, 
+            (800 // 2) - 340, 
+            261, 
+            200
+        )
+        list_city = info_cityes()
+        for city in list_city:
+            if city.lower().startswith(entered_text.lower()):
+                self.button_city = widgets.QPushButton(city)
+                # self.button_city.setStyleSheet("background-color: transparent")
+                # self.button_city.setFixedSize(261, 32)
+                MODAL_LAYOUT.addWidget(self.button_city)
+
+        self.MODAL.show()
+
+
