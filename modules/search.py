@@ -35,6 +35,7 @@ class Block_search:
         self.LAYOUT.addWidget(frame_settings)
         self.LAYOUT.addStretch()
         self.LAYOUT.addWidget(self.FRAME)
+        # self.LAYOUT.addStretch()
         self.IMAGE = ImageLoad(25, 25, self.FRAME, 'search.png')
         self.IMAGE.setStyleSheet("background-color: transparent")
         self.SEARCH_BOX = widgets.QLineEdit(self.FRAME)

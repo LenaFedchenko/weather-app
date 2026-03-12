@@ -9,16 +9,16 @@ class Scroll_frame(widgets.QScrollArea):
         widgets.QScrollArea.__init__(self, parent = parent)
         self.right_layout_frame = right_layout_frame
         self.content_frame = content_frame
-        self.list_cities = [
-            "Дніпро",
-            "Київ",
-            # "Львів",
-            # "Харків",
-            # "Луцьк",
-            # "Маріуполь",
-            # "Івано-Франківськ",
-            # "Луганськ"
-        ]
+        # self.list_cities = [
+        #     "Дніпро",
+        #     "Київ",
+        #     # "Львів",
+        #     # "Харків",
+        #     # "Луцьк",
+        #     # "Маріуполь",
+        #     # "Івано-Франківськ",
+        #     # "Луганськ"
+        # ]
         self.setVerticalScrollBarPolicy(core.Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.setFixedSize(370, 727)
         self.setStyleSheet("border: none; background-color: transparent")
