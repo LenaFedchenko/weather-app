@@ -148,9 +148,10 @@ class Card(widgets.QFrame):
             Card.active_per_hour = None
         # Создаём новый
         Card.active_card = self
-        Card.active_search = Block_search(
-            parent= self.RIGHT_LAYOUT_FRAME
-        )
+        # Card.active_search = Block_search(
+        #     parent= self.RIGHT_LAYOUT_FRAME
+        # )
+        # print(Card.active_search.ENTER_TEXT)
         Card.active_info_weather = MainInfoWeather(
             self.RIGHT_LAYOUT_FRAME,
             self.DECS_WEATH,

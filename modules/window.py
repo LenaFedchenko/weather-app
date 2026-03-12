@@ -7,6 +7,7 @@ from .app import app_obj
 from .title_bar import Title_bar
 from .scroll_frame import Scroll_frame
 from .frame import Frame_create
+from .search import Block_search
 
 class MainWindow(widgets.QMainWindow):
     def __init__(self, window_width: int, window_height: int):
@@ -94,9 +95,20 @@ class MainWindow(widgets.QMainWindow):
         self.DARK_MODE_BUTTON.clicked.connect(button_dark_pressed)
         self.LEFT_FRAME_LAYOUT.addWidget(frame_for_button)
 
-        scroll_area = Scroll_frame(left_frame, self.LAYOUT_RIGHT_FRAME, self.LAYOUT_RIGHT_FRAME)
+        self.scroll_area = Scroll_frame(left_frame, self.LAYOUT_RIGHT_FRAME, self.LAYOUT_RIGHT_FRAME)
+        self.active_search = Block_search(
+            parent= self.LAYOUT_RIGHT_FRAME
+        )
+        self.BUTTON_ENTER  = None
+        self.active_search.SEARCH_BOX.textChanged.connect(self.result_search)
+        self.LEFT_FRAME_LAYOUT.addWidget(self.scroll_area)
         
-        self.LEFT_FRAME_LAYOUT.addWidget(scroll_area)
-
-
+    def result_search(self):
+        if self.BUTTON_ENTER == None:
+            self.BUTTON_ENTER = widgets.QPushButton("1243")
+            self.BUTTON_ENTER.clicked.connect(self.add_city)
+        self.active_search.SEARCH_LAYOUT.addWidget(self.BUTTON_ENTER)
+    def add_city(self):
+        self.TEXT_ENTER = self.active_search.SEARCH_BOX.text()
+        self.scroll_area.city_list(self.TEXT_ENTER)
 main_window = MainWindow(window_width = 1200, window_height = 800)

@@ -38,7 +38,9 @@ class Block_search:
         self.IMAGE = ImageLoad(25, 25, self.FRAME, 'search.png')
         self.IMAGE.setStyleSheet("background-color: transparent")
         self.SEARCH_BOX = widgets.QLineEdit(self.FRAME)
-        self.SEARCH_BOX.setFixedSize(245, 42)
+        # self.SEARCH_BOX.textChanged.connect(self.result_search)
+        self.ENTER_TEXT = ""
+        self.SEARCH_BOX.setFixedSize(215, 42)
         self.SEARCH_BOX.setPlaceholderText('Пошук')
         self.SEARCH_BOX.setStyleSheet("color: white; font-size: 22px; background-color: transparent")
         self.SEARCH_LAYOUT.addStretch()
