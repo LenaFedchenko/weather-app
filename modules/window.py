@@ -97,7 +97,8 @@ class MainWindow(widgets.QMainWindow):
 
         self.scroll_area = Scroll_frame(left_frame, self.LAYOUT_RIGHT_FRAME, self.LAYOUT_RIGHT_FRAME)
         self.active_search = Block_search(
-            parent= self.LAYOUT_RIGHT_FRAME
+            parent= self.LAYOUT_RIGHT_FRAME,
+            content_frame= self.content_frame
         )
         self.BUTTON_ENTER  = None
         self.active_search.SEARCH_BOX.textChanged.connect(self.result_search)
@@ -119,7 +120,7 @@ class MainWindow(widgets.QMainWindow):
             self.count += 1
             
         self.active_search.LAYOUT.insertWidget(2, self.BUTTON_ENTER)
-        # self.active_search.LAYOUT.addWidget(self.BUTTON_ENTER)
+
     def add_city(self):
         self.TEXT_ENTER = self.active_search.SEARCH_BOX.text()
         self.TEXT_ENTER = self.active_search.button_city.text()

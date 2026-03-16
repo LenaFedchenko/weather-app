@@ -5,10 +5,12 @@ import os
 from .frame import Frame_create
 from .load_img import ImageLoad
 from .info_from_api import info_cityes
+from .modal_settings import Modal_settings
 
 
 class Block_search:
-    def __init__(self, parent):
+    def __init__(self, parent, content_frame):
+        self.content_frame = content_frame
         self.LAYOUT = widgets.QHBoxLayout()
         self.LAYOUT.setContentsMargins(0, 0, 0, 0)
         self.block_parent = Frame_create(self.LAYOUT, width = 790, height = 40, color = "transparent")
@@ -22,6 +24,7 @@ class Block_search:
         self.button.setFixedSize(36, 36)
         self.path_img2 = os.path.abspath(os.path.join(__file__, "..", "..", "media", "settings.png"))
         self.ICON_BUTTON2 = gui.QIcon(self.path_img2)
+        self.button.clicked.connect(self.settings)
         self.button.setIcon(self.ICON_BUTTON2)
         layiut_sett.addWidget(self.button)
         self.LABEL = widgets.QLabel(parent=frame_settings, text= "Налаштування")
@@ -60,8 +63,10 @@ class Block_search:
         self.MODAL.setStyleSheet(f"border-radius: 16px; background-color: rgba(0, 0, 0, 51)")
         
         self.MODAL.setGeometry(
-            (1200 // 2) - 426, 
-            (800 // 2) - 340, 
+            self.SEARCH_BOX.x(),
+            self.SEARCH_BOX.y() + self.SEARCH_BOX.height(),
+            # (self.SEARCH_BOX.width() // 2) + self.MODAL.width(), 
+            # (self.SEARCH_BOX.height() // 2) - self.MODAL.height(), 
             261, 
             200
         )
@@ -75,4 +80,5 @@ class Block_search:
 
         self.MODAL.show()
 
-
+    def settings(self):
+        settings_modal = Modal_settings(self.content_frame)
