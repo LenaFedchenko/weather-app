@@ -54,9 +54,10 @@ class MainWindow(widgets.QMainWindow):
         left_frame = Frame_create(layout= self.LEFT_FRAME_LAYOUT, width=370, height= 800)
         self.LAYOUT_RIGHT_FRAME = widgets.QVBoxLayout()
         self.RIGHT_FRAME = Frame_create(self.LAYOUT_RIGHT_FRAME, 828, 800)
-        self.RIGHT_FRAME.setContentsMargins(0, 0, 0, 0)
+        self.RIGHT_FRAME.setContentsMargins(0, 10, 0, 0)
+        self.LAYOUT_RIGHT_FRAME.setAlignment(core.Qt.AlignmentFlag.AlignTop)
         self.LAYOUT_RIGHT_FRAME.setContentsMargins(0, 0, 0, 0)
-        self.LAYOUT_RIGHT_FRAME.setSpacing(0)
+        self.LAYOUT_RIGHT_FRAME.setSpacing(10)
         left_frame.setLayout(self.LEFT_FRAME_LAYOUT)
         left_frame.setStyleSheet("background-color: rgba(0, 0, 0, 100)")
         self.CONTENT_FRAME_LAYOUT.addWidget(left_frame)
@@ -109,8 +110,14 @@ class MainWindow(widgets.QMainWindow):
         if self.BUTTON_ENTER == None:
             self.BUTTON_ENTER = widgets.QPushButton("Додати")
             self.BUTTON_ENTER.setFixedSize(97, 36)
-            self.BUTTON_ENTER.clicked.connect(self.add_city)
+            self.BUTTON_ENTER.clicked.connect(self.add_city_btn)
             self.BUTTON_ENTER.setStyleSheet("border-radius: 4px; background-color: rgba(0, 0, 0, 100); font-size: 17px")
+
+            self.BUTTON_DELETE = widgets.QPushButton("Х")
+            self.BUTTON_DELETE.setFixedSize(20, 22)
+            self.BUTTON_DELETE.clicked.connect(self.clear_search)
+            self.BUTTON_DELETE.setStyleSheet("border-radius: 20px; background-color: #3C3C4399; font-size: 15px")
+
         if len(self.active_search.SEARCH_BOX.text())>=2:
             if self.count >= 1:
                 self.active_search.reset_search()
@@ -120,10 +127,18 @@ class MainWindow(widgets.QMainWindow):
             self.count += 1
             
         self.active_search.LAYOUT.insertWidget(2, self.BUTTON_ENTER)
+        self.active_search.LAYOUT.insertWidget(4, self.BUTTON_DELETE)
 
     def add_city(self):
         self.TEXT_ENTER = self.active_search.SEARCH_BOX.text()
         self.TEXT_ENTER = self.active_search.button_city.text()
+        # self.active_search.reset_search()
+        self.active_search.SEARCH_BOX.setText(self.TEXT_ENTER)
+    def add_city_btn(self):
+        self.TEXT_ENTER = self.active_search.SEARCH_BOX.text()
+        self.TEXT_ENTER = self.active_search.button_city.text()
         self.active_search.reset_search()
         self.scroll_area.city_list(self.TEXT_ENTER)
+    def clear_search(self):
+        self.active_search.SEARCH_BOX.clear()
 main_window = MainWindow(window_width = 1200, window_height = 800)

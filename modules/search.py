@@ -6,6 +6,8 @@ from .frame import Frame_create
 from .load_img import ImageLoad
 from .info_from_api import info_cityes
 from .modal_settings import Modal_settings
+from deep_translator import GoogleTranslator
+from PyQt6 import QtWidgets as widgets
 
 
 class Block_search:
@@ -60,23 +62,21 @@ class Block_search:
         MODAL_LAYOUT = widgets.QVBoxLayout()
         MODAL_LAYOUT.setAlignment(core.Qt.AlignmentFlag.AlignLeft)
         self.MODAL.setLayout(MODAL_LAYOUT)
-        self.MODAL.setStyleSheet(f"border-radius: 16px; background-color: rgba(0, 0, 0, 51)")
-        
-        self.MODAL.setGeometry(
-            self.SEARCH_BOX.x(),
-            self.SEARCH_BOX.y() + self.SEARCH_BOX.height(),
-            # (self.SEARCH_BOX.width() // 2) + self.MODAL.width(), 
-            # (self.SEARCH_BOX.height() // 2) - self.MODAL.height(), 
-            261, 
-            200
-        )
+        self.MODAL.setStyleSheet(f"border-radius: 16px; background-color: rgba(0, 0, 0, 101)")
+
+        self.MODAL.setFixedWidth(261)
+        self.MODAL.move(500, 55)
         list_city = info_cityes()
+        count = 0
         for city in list_city:
             if city.lower().startswith(entered_text.lower()):
-                self.button_city = widgets.QPushButton(city)
-                # self.button_city.setStyleSheet("background-color: transparent")
-                # self.button_city.setFixedSize(261, 32)
-                MODAL_LAYOUT.addWidget(self.button_city)
+                count += 1
+                if count <= 6:
+                    self.button_city = widgets.QPushButton(city)
+                    self.button_city.setStyleSheet("background-color: transparent; font-size: 14px; text-align: left; padding-left: 10px;")
+                    self.button_city.setFixedSize(261, 32)
+                    MODAL_LAYOUT.addWidget(self.button_city)
+                    self.MODAL.adjustSize()
 
         self.MODAL.show()
 
