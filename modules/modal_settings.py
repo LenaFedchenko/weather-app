@@ -1,5 +1,6 @@
 import PyQt6.QtWidgets as widgets
 from .frame import Frame_create
+from .settings_main_part import Main_part_settings
 
 class Modal_settings:
     def __init__(self, frame):
@@ -28,7 +29,10 @@ class Modal_settings:
         self.CLOSE_BUTTON.setStyleSheet("background-color: transparent")
         
         self.CONTENT_LAYOUT = widgets.QHBoxLayout()
-        self.CONTENT_FRAME = Frame_create(layout = self.CONTENT_LAYOUT, width = 742, height = 578, color = "green")
+        self.CONTENT_LAYOUT.setContentsMargins(0, 0, 0, 0)
+        self.CONTENT_FRAME = Frame_create(layout = self.CONTENT_LAYOUT, width = 742, height = 578, color = "transparent")
+        
+        main_part = Main_part_settings(self.CONTENT_LAYOUT)
         
         self.HEADER_LAYOUT.addWidget(self.LABEL_SETTINGS)
         self.HEADER_LAYOUT.addStretch()
