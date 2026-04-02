@@ -1,4 +1,4 @@
-from utils.api_request import api_request_func, api_request_city
+from utils.api_request import api_request_func, api_request_city, api_request_geo
 
 def info_for_card(city_name: str):
     data = api_request_func(city_name)  # почасовой прогноз
@@ -42,3 +42,33 @@ def info_cityes():
     for i in api_request["data"]:
         list_city.append(i["city"])
     return list_city
+def info_country():
+    list_country = []
+    api_request = api_request_city()
+    for i in api_request["data"]:
+        list_country.append(i["country"])
+    list_country = list_country[4:]
+    # print(list_country)
+    return list_country
+
+# {
+#     'city': 'Ibb', 
+#     'country': 'Yemen', 
+#     'populationCounts': [{'year': '1994', 'value': '103312', 'sex': 'Both Sexes', 'reliabilty': 'Final figure, complete'}]
+# }
+def info_city_from_coutry(coutry):
+    list_city = []
+    api_request = api_request_city()
+    for country_gotten in api_request["data"]:
+        if country_gotten["country"] == coutry:
+            list_city.append(country_gotten["city"])
+    return list_city
+def info_geo(city_name):
+    try:
+        api_request = api_request_geo(city_name)
+        print(api_request)
+        length_coordiantes = api_request[0]['lat']
+        width_coordinates = api_request[0]['lon']
+    except Exception as error:
+        print(error)
+    return length_coordiantes, width_coordinates

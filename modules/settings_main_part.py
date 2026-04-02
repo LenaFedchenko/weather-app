@@ -1,6 +1,7 @@
 import PyQt6.QtWidgets as widgets
 import PyQt6.QtCore as core
 from .frame import Frame_create
+from .info_from_api import info_country, info_city_from_coutry, info_geo
 
 
 class Main_part_settings(widgets.QFrame):
@@ -45,8 +46,27 @@ class Main_part_settings(widgets.QFrame):
         self.FRAME_IMAGE= ""
         self.SIZE_APP = ""
         
+    def button_function(self, text):
+        self.selected_country = text
+        self.info_city_from_country = info_city_from_coutry(self.selected_country)
+        self.box_city.clear()
+        for city in self.info_city_from_country:
+            self.box_city.addItem(city)
+    
+    def geo(self):
+        self.selected_city = self.box_city.currentText()
+        try:
+            x, y = info_geo(self.selected_city)
+            self.info_selected_city_x = x
+            self.info_selected_city_y = y
 
+            self.LABEL_BC1.setText(f"(WGS {x} {y}, UTM, MGRS)")
+        except Exception as error:
+            print(error)
+            self.LABEL_BC1.setText("(помилка)")
     def search_city_pressed(self):
+        self.list_country = info_country()
+        
         self.del_prev_card(self.SEARCH_CITY)
         # self.search_city.setStyleSheet("background-color: rgba(0, 0, 0, 100); border-radius: 5px")
         self.search_layout = widgets.QVBoxLayout()
@@ -77,27 +97,34 @@ class Main_part_settings(widgets.QFrame):
         self.box_countre = widgets.QComboBox(parent = self.data_city)
         self.box_countre.setStyleSheet("background-color: white; color: black; border-radius: 4px")
         self.box_countre.setFixedSize(209, 32)
-        self.box_countre.addItem("Італія")
-        self.box_countre.addItem("Пункт2")
-        self.box_countre.addItem("Пункт3")
-
+        for country in self.list_country:
+            self.box_countre.addItem(country)
+        
+        self.box_countre.currentTextChanged.connect(self.button_function)
+        # выбранная страна
+        self.selected_country = self.box_countre.currentText()
+        self.info_city_from_country = info_city_from_coutry(self.selected_country)
+        
         self.LABEL_CITY = widgets.QLabel("Місто")
         self.box_city = widgets.QComboBox(parent = self.data_city)
         self.box_city.setStyleSheet("background-color: white; color: black; border-radius: 4px")
         self.box_city.setFixedSize(209, 32)
-        self.box_city.addItem("Виберіть місто")
-        self.box_city.addItem("Пункт2")
-        self.box_city.addItem("Пункт3")
+
+        for city in self.info_city_from_country:
+            self.box_city.addItem(city)
         self.box_city.setFixedSize(229, 32)
-        
+        self.box_city.currentTextChanged.connect(self.geo)
+        self.selected_city = self.box_city.currentText()
+
+        # self.info_selected_city_x, self.info_selected_city_y = info_geo(self.selected_city)
         self.LABEL_COORDINATE = widgets.QLabel("Кординати")
-        self.box_coordinate = widgets.QComboBox(parent = self.data_city)
-        self.box_coordinate.setStyleSheet("background-color: white; color: black; border-radius: 4px")
-        self.box_coordinate.setFixedSize(209, 32)
-        self.box_coordinate.addItem("(WGS 84,UTM,MGRS)")
-        self.box_coordinate.addItem("Пункт2")
-        self.box_coordinate.addItem("Пункт3")
-        self.box_coordinate.setFixedSize(229, 32)
+        self.box_coordinate_layout = widgets.QVBoxLayout()
+        self.box_coordinate = Frame_create(layout = self.box_coordinate_layout, width = 239, height = 32)
+        self.box_coordinate.setStyleSheet("background-color: white; border-radius: 4px")
+
+        self.LABEL_BC1 = widgets.QLabel("(немає даних)", self.box_coordinate)
+        self.LABEL_BC1.setStyleSheet('color: black; font-size: 10px')
+        self.box_coordinate_layout.addWidget(self.LABEL_BC1)
 
         self.SAVE_BUTTON = widgets.QPushButton("Зберегти")
         self.SAVE_BUTTON.setFixedSize(105, 38)
@@ -140,9 +167,9 @@ class Main_part_settings(widgets.QFrame):
         self.SIZE_APP = Frame_create(layout = widgets.QVBoxLayout(), width = 544, height = 578, color = 'yellow')
         self.FRAME_MAIN_LAUYT.addWidget(self.SIZE_APP)
     def app_language_pressed(self):
-            self.del_prev_card(self.LANGUAGE)
-            self.LANGUAGE = Frame_create(layout = widgets.QVBoxLayout(), width = 544, height = 578, color = 'red')
-            self.FRAME_MAIN_LAUYT.addWidget(self.LANGUAGE)
+        self.del_prev_card(self.LANGUAGE)
+        self.LANGUAGE = Frame_create(layout = widgets.QVBoxLayout(), width = 544, height = 578, color = 'red')
+        self.FRAME_MAIN_LAUYT.addWidget(self.LANGUAGE)
     def image_list_pressed(self):
         self.del_prev_card(self.FRAME_IMAGE)
         self.FRAME_IMAGE = Frame_create(layout = widgets.QVBoxLayout(), width = 544, height = 578, color = 'blue')
