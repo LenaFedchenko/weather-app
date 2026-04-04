@@ -2,6 +2,9 @@ import PyQt6.QtWidgets as widgets
 import PyQt6.QtCore as core
 from .frame import Frame_create
 from .info_from_api import info_country, info_city_from_coutry, info_geo
+import PyQt6.QtWebEngineWidgets as webengine
+import folium
+import io
 
 
 class Main_part_settings(widgets.QFrame):
@@ -45,6 +48,8 @@ class Main_part_settings(widgets.QFrame):
         self.LANGUAGE= ""
         self.FRAME_IMAGE= ""
         self.SIZE_APP = ""
+        self.WEB_VIEW = webengine.QWebEngineView()
+        self.WEB_VIEW.setFixedSize(core.QSize(289, 276))
         
     def button_function(self, text):
         self.selected_country = text
@@ -59,8 +64,13 @@ class Main_part_settings(widgets.QFrame):
             x, y = info_geo(self.selected_city)
             self.info_selected_city_x = x
             self.info_selected_city_y = y
-
             self.LABEL_BC1.setText(f"(WGS {x} {y}, UTM, MGRS)")
+            self.map_layout.addWidget(self.WEB_VIEW)
+            self.SEARCH_MAP = folium.Map(location=(self.info_selected_city_x, self.info_selected_city_y))
+            data = io.BytesIO()
+            self.SEARCH_MAP.save(data, False)
+            data_value = data.getvalue()
+            self.WEB_VIEW.setHtml(data_value.decode())
         except Exception as error:
             print(error)
             self.LABEL_BC1.setText("(помилка)")
@@ -88,7 +98,7 @@ class Main_part_settings(widgets.QFrame):
         self.LABEL = widgets.QLabel("Пошук міста")
 
         self.map_layout = widgets.QVBoxLayout()
-        self.map = Frame_create(self.map_layout, 290, 301, "yellow")
+        self.map = Frame_create(self.map_layout, 290, 301, "transparent")
 
         self.block_inputs_layout = widgets.QVBoxLayout()
         self.block_inputs = Frame_create(self.block_inputs_layout, 239, 194, "transparent")
@@ -98,6 +108,7 @@ class Main_part_settings(widgets.QFrame):
         self.box_countre.setStyleSheet("background-color: white; color: black; border-radius: 4px")
         self.box_countre.setFixedSize(209, 32)
         for country in self.list_country:
+            print(country)
             self.box_countre.addItem(country)
         
         self.box_countre.currentTextChanged.connect(self.button_function)

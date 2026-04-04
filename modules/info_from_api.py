@@ -45,9 +45,10 @@ def info_cityes():
 def info_country():
     list_country = []
     api_request = api_request_city()
-    for i in api_request["data"]:
-        list_country.append(i["country"])
-    list_country = list_country[4:]
+    for country in api_request["data"]:
+        if country["country"] not in list_country:
+            list_country.append(country["country"])
+    list_country = list_country[1:]
     # print(list_country)
     return list_country
 
