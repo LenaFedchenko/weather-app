@@ -67,7 +67,7 @@ def info_city_from_coutry(coutry):
 def info_geo(city_name):
     try:
         api_request = api_request_geo(city_name)
-        print(api_request)
+        # print(api_request)
         length_coordiantes = api_request[0]['lat']
         width_coordinates = api_request[0]['lon']
     except Exception as error:

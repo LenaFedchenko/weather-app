@@ -5,6 +5,8 @@ from .info_from_api import info_country, info_city_from_coutry, info_geo
 import PyQt6.QtWebEngineWidgets as webengine
 import folium
 import io
+import json
+import os
 
 
 class Main_part_settings(widgets.QFrame):
@@ -89,6 +91,20 @@ class Main_part_settings(widgets.QFrame):
         self.added_cities_layout = widgets.QVBoxLayout()
         self.added_cities = Frame_create(self.added_cities_layout, 524, 197, "pink")
 
+        self.path_json = os.path.abspath(os.path.join(__file__, "..", "..", "static", "json", "countries.json"))
+        with open(self.path_json, "r", encoding="utf-8") as file:
+            data = json.load(file)
+        for city in data:
+            LAYOYT_CITY_ADDED = widgets.QHBoxLayout()
+            city_added = Frame_create(layout = LAYOYT_CITY_ADDED, width = 512, height = 42, color = "red")
+            self.added_cities_layout.addWidget(city_added)
+            LABEL_CITY_NAME = widgets.QLabel(f"{city}")
+            BUTTON_DELETE = widgets.QPushButton(text="del")
+            BUTTON_DELETE.clicked.connect(lambda: self.delete(LABEL_CITY_NAME.text()))
+            BUTTON_DELETE.setFixedSize(20, 20)
+            LAYOYT_CITY_ADDED.addWidget(LABEL_CITY_NAME)
+            LAYOYT_CITY_ADDED.addStretch()
+            LAYOYT_CITY_ADDED.addWidget(BUTTON_DELETE)
         
         self.data_city_layout = widgets.QVBoxLayout()
         self.data_city_layout.setAlignment(core.Qt.AlignmentFlag.AlignLeft)
@@ -108,7 +124,7 @@ class Main_part_settings(widgets.QFrame):
         self.box_countre.setStyleSheet("background-color: white; color: black; border-radius: 4px")
         self.box_countre.setFixedSize(209, 32)
         for country in self.list_country:
-            print(country)
+            # print(country)
             self.box_countre.addItem(country)
         
         self.box_countre.currentTextChanged.connect(self.button_function)
@@ -196,3 +212,13 @@ class Main_part_settings(widgets.QFrame):
                 btn.setStyleSheet('text-align: left; background-color: transparent')
             if name_card == card:
                 btn.setStyleSheet("background-color: rgba(0, 0, 0, 100); border-radius: 5px")
+    def delete(self, text):
+        print(text)
+        with open(self.path_json, "r", encoding="utf-8") as file:
+            data = json.load(file)
+        for city in data:
+            if city == text:
+                print("lllll")
+                data.remove(city)
+        with open(self.path_json, "w") as file:
+            json.dump(data, file, ensure_ascii=False, indent=4)
