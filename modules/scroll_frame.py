@@ -35,8 +35,8 @@ class Scroll_frame(widgets.QScrollArea):
                         content_frame = self.content_frame
                         )
                     self.SCROLL_FRAME_LAYOUT.addWidget(card)
-                except:
-                    print("error")
+                except Exception as error:
+                    print(error)
     def city_list(self, city):
         self.LIST_CITY = city
         try:
@@ -58,8 +58,8 @@ class Scroll_frame(widgets.QScrollArea):
                     content_frame = self.content_frame
                     )
                 self.SCROLL_FRAME_LAYOUT.addWidget(card)
-            except:
-                print("error")
+            except Exception as error:
+                print(error)
 
 
 

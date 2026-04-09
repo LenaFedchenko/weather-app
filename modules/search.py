@@ -6,7 +6,6 @@ from .frame import Frame_create
 from .load_img import ImageLoad
 from .info_from_api import info_cityes
 from .modal_settings import Modal_settings
-from deep_translator import GoogleTranslator
 from PyQt6 import QtWidgets as widgets
 
 

@@ -8,7 +8,7 @@ class Modal_settings:
         MODAL_LAYOUT = widgets.QVBoxLayout()
         # MODAL_LAYOUT.setAlignment(core.Qt.AlignmentFlag.AlignLeft)
         self.MODAL.setLayout(MODAL_LAYOUT)
-        self.MODAL.setStyleSheet(f"border-radius: 16px; background-color: rgba(0, 0, 0, 100)")
+        self.MODAL.setStyleSheet(f"border-radius: 16px; background-color: rgba(0, 0, 0, 150)")
         
         self.MODAL.setGeometry(
             (1200 // 2) - 400, 
