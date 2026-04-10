@@ -246,8 +246,18 @@ class Main_part_settings(widgets.QFrame):
         self.search_layout.addWidget(self.added_cities)
     def size_app_pressed(self):
         self.del_prev_card(self.SIZE_APP)
-        self.SIZE_APP = Frame_create(layout = widgets.QVBoxLayout(), width = 544, height = 578, color = 'yellow')
+        self.SIZE_APP_LAYOT = widgets.QVBoxLayout()
+        self.SIZE_APP = Frame_create(layout = self.SIZE_APP_LAYOT, width = 544, height = 578, color = 'yellow')
         self.FRAME_MAIN_LAUYT.addWidget(self.SIZE_APP)
+        main_window = self.get_main_window()
+        size_list = [(1200, 800), (1440, 1024), (1512, 982), (1728, 1117)]
+        for w, h in size_list:
+            button = widgets.QPushButton(f'{w}x{h}')
+            button.clicked.connect(lambda _, w=w, h=h: main_window.resize(w, h))
+            self.SIZE_APP_LAYOT.addWidget(button)
+
+
+        
     def app_language_pressed(self):
         self.del_prev_card(self.LANGUAGE)
         self.LANGUAGE = Frame_create(layout = widgets.QVBoxLayout(), width = 544, height = 578, color = 'red')
@@ -269,7 +279,6 @@ class Main_part_settings(widgets.QFrame):
                 btn.setStyleSheet("background-color: rgba(0, 0, 0, 100); border-radius: 5px")
     def delete(self, text, widget):
         widget.setParent(None)
-
         with open(self.path_json, "r", encoding="utf-8") as file:
             self.data = json.load(file)
         for city in self.data:
@@ -305,3 +314,11 @@ class Main_part_settings(widgets.QFrame):
         LAYOYT_CITY_ADDED.addWidget(LABEL_CITY_NAME)
         LAYOYT_CITY_ADDED.addStretch()
         LAYOYT_CITY_ADDED.addWidget(BUTTON_DELETE)
+
+    def get_main_window(self):
+        parent = self.parent()
+        while parent is not None:
+            if isinstance(parent, widgets.QMainWindow):
+                return parent
+            parent = parent.parent()
+        return None

@@ -23,15 +23,25 @@ class MainWindow(widgets.QMainWindow):
         self.SCREEN_HEIGHT = self.SCREEN_SIZE.height()
         self.CENTER_X = (self.SCREEN_WIDTH // 2) - (self.WINDOW_WIDTH // 2)
         self.CENTER_Y = (self.SCREEN_HEIGHT // 2) - (self.WINDOW_HEIGHT // 2)
+        self.setMinimumSize(1200, 800)
+        self.setMaximumSize(1728, 1117)
         self.setGeometry(self.CENTER_X, self.CENTER_Y, self.WINDOW_WIDTH, self.WINDOW_HEIGHT)
         
         self.CENTRAL_WIDGET = widgets.QWidget(parent = self)
-        self.CENTRAL_WIDGET.setFixedSize(core.QSize(self.WINDOW_WIDTH, self.WINDOW_HEIGHT))
+        self.setCentralWidget(self.CENTRAL_WIDGET)
+        # self.CENTRAL_WIDGET.setFixedSize(core.QSize(self.WINDOW_WIDTH, self.WINDOW_HEIGHT))
+        self.CENTRAL_WIDGET.setMinimumSize(1200, 800)
+        self.CENTRAL_WIDGET.setMaximumSize(1728, 1117)
+        self.CENTRAL_WIDGET.setSizePolicy(
+            widgets.QSizePolicy.Policy.Expanding,
+            widgets.QSizePolicy.Policy.Expanding
+        )
         self.CENTRAL_WIDGET_LAYOUT = widgets.QVBoxLayout()
         self.CENTRAL_WIDGET_LAYOUT.setContentsMargins(0, 0, 0, 0)
         self.CENTRAL_WIDGET_LAYOUT.setSpacing(0)
         self.CENTRAL_WIDGET.setLayout(self.CENTRAL_WIDGET_LAYOUT)
         self.TITLE_BAR = Title_bar(self.CENTRAL_WIDGET, width = self.WINDOW_WIDTH)
+        
         self.CENTRAL_WIDGET_LAYOUT.addWidget(self.TITLE_BAR)
         
 
@@ -39,6 +49,12 @@ class MainWindow(widgets.QMainWindow):
         # self.CONTENT_FRAME_LAYOUT.setAlignment(core.Qt.AlignmentFlag.AlignLeft)
         self.CONTENT_FRAME_LAYOUT.setContentsMargins(0, 0, 0, 0)
         self.content_frame = Frame_create(layout= self.CONTENT_FRAME_LAYOUT)
+        self.content_frame.setMinimumSize(1200, 800)
+        self.content_frame.setMaximumSize(1728, 1117)
+        self.content_frame.setSizePolicy(
+            widgets.QSizePolicy.Policy.Expanding,
+            widgets.QSizePolicy.Policy.Expanding
+        )
         # для того, что бы фон применялся не глобально
         self.content_frame.setObjectName("CONTENT_FRAME")
         self.content_frame.setLayout(self.CONTENT_FRAME_LAYOUT)

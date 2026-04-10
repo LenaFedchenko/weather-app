@@ -15,7 +15,13 @@ class Scroll_frame(widgets.QScrollArea):
             # список всех городов с джсона
             data = json.load(file)
         self.setVerticalScrollBarPolicy(core.Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-        self.setFixedSize(370, 727)
+        # self.setFixedSize(370, 727)
+        self.setMinimumSize(370, 727)
+        self.setMaximumSize(500, 1117)
+        self.setSizePolicy(
+            widgets.QSizePolicy.Policy.Expanding,
+            widgets.QSizePolicy.Policy.Expanding
+        )
         self.setStyleSheet("border: none; background-color: transparent")
         self.setWidgetResizable(True)
         self.SCROLL_FRAME = widgets.QFrame(parent = self)
@@ -29,6 +35,7 @@ class Scroll_frame(widgets.QScrollArea):
             for city in data:
                 self.setWidget(self.SCROLL_FRAME)
                 try:
+                    
                     card = Card(
                         city_name_from_list= city,
                         right_layout_frame= self.right_layout_frame,
