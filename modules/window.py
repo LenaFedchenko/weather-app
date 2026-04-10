@@ -61,13 +61,17 @@ class MainWindow(widgets.QMainWindow):
         path = os.path.abspath(os.path.join(__file__, "..", "..", "media", "light_mode.png"))
         self.content_frame.setStyleSheet(f"""
                                         #CONTENT_FRAME {{
-                                        background-image: url({path});
+                                        border-image: url({path}) 0 0 0 0 stretch stretch;
                                         }}""")
         
         self.CENTRAL_WIDGET_LAYOUT.addWidget(self.content_frame)
         
         self.LEFT_FRAME_LAYOUT = widgets.QVBoxLayout()
-        left_frame = Frame_create(layout= self.LEFT_FRAME_LAYOUT, width=370, height= 800)
+        left_frame = widgets.QFrame()
+        left_frame.setLayout(self.LEFT_FRAME_LAYOUT)
+        left_frame.setMinimumSize(370, 800)
+        left_frame.setMaximumSize(400, 1117)
+        # left_frame = Frame_create(layout= self.LEFT_FRAME_LAYOUT, width=370, height= 800)
         self.LAYOUT_RIGHT_FRAME = widgets.QVBoxLayout()
         self.RIGHT_FRAME = Frame_create(self.LAYOUT_RIGHT_FRAME, 828, 800)
         self.RIGHT_FRAME.setContentsMargins(0, 10, 0, 0)
@@ -101,7 +105,7 @@ class MainWindow(widgets.QMainWindow):
                 path_mode = os.path.abspath(os.path.join(__file__, "..", "..", "media", "dark_mode.png"))
             self.content_frame.setStyleSheet(f"""
                                     #CONTENT_FRAME {{
-                                    background-image: url({path_mode});
+                                    border-image: url({path_mode}) 0 0 0 0 stretch stretch;
                                     }}""")
             self.icon = gui.QIcon(self.path_btn)
             self.DARK_MODE_BUTTON.setIcon(self.icon)

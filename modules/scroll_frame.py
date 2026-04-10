@@ -1,8 +1,6 @@
 import PyQt6.QtWidgets as widgets
 from .card import Card
 import PyQt6.QtCore as core
-from .info_from_api import info_for_card
-from datetime import datetime, timedelta, timezone
 import json, os
 
 class Scroll_frame(widgets.QScrollArea):
@@ -17,7 +15,7 @@ class Scroll_frame(widgets.QScrollArea):
         self.setVerticalScrollBarPolicy(core.Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         # self.setFixedSize(370, 727)
         self.setMinimumSize(370, 727)
-        self.setMaximumSize(500, 1117)
+        self.setMaximumSize(380, 1117)
         self.setSizePolicy(
             widgets.QSizePolicy.Policy.Expanding,
             widgets.QSizePolicy.Policy.Expanding

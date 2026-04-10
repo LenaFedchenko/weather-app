@@ -14,7 +14,9 @@ class Title_bar(widgets.QFrame):
         
         self.setLayout(self.LAYOUT)
         
-        self.setFixedSize(core.QSize(width, 40))
+        # self.setFixedSize(core.QSize(width, 40))
+        self.setMinimumSize(width, 40)
+        self.setMaximumSize(width*2, 40*2)
         self.setStyleSheet("background-color: white; ")
         
         self.BUTTONS_FRAME = widgets.QFrame(parent = self)

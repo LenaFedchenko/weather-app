@@ -35,7 +35,16 @@ class Block_search:
         self.SEARCH_LAYOUT = widgets.QHBoxLayout()
         self.SEARCH_LAYOUT.setContentsMargins(0, 0, 0, 0)
         self.SEARCH_LAYOUT.setAlignment(core.Qt.AlignmentFlag.AlignVCenter)
-        self.FRAME = Frame_create(self.SEARCH_LAYOUT, width = 281, height = 40)
+        # єто изменить
+        # self.FRAME = Frame_create(self.SEARCH_LAYOUT, width = 281, height = 40)
+        self.FRAME = widgets.QFrame()
+        self.FRAME.setLayout(self.SEARCH_LAYOUT)
+        self.FRAME.setMinimumSize(281, 40)
+        self.FRAME.setMaximumSize(300, 65)
+        self.FRAME.setSizePolicy(
+            widgets.QSizePolicy.Policy.Expanding,
+            widgets.QSizePolicy.Policy.Expanding
+        )
         self.FRAME.setStyleSheet("border-radius: 4px; background-color: rgba(0, 0, 0, 51)")
         self.LAYOUT.addWidget(frame_settings)
         self.LAYOUT.addStretch()

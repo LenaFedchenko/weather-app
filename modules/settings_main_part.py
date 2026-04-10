@@ -247,14 +247,18 @@ class Main_part_settings(widgets.QFrame):
     def size_app_pressed(self):
         self.del_prev_card(self.SIZE_APP)
         self.SIZE_APP_LAYOT = widgets.QVBoxLayout()
-        self.SIZE_APP = Frame_create(layout = self.SIZE_APP_LAYOT, width = 544, height = 578, color = 'yellow')
+        self.SIZE_APP_LAYOT.setAlignment(core.Qt.AlignmentFlag.AlignTop)
+        self.SIZE_APP = Frame_create(layout = self.SIZE_APP_LAYOT, width = 544, height = 578, color = 'transparent')
         self.FRAME_MAIN_LAUYT.addWidget(self.SIZE_APP)
+        btns_layout = widgets.QVBoxLayout()
+        btns = Frame_create(btns_layout, 239, 219, "red")
+        self.SIZE_APP_LAYOT.addWidget(btns)
         main_window = self.get_main_window()
         size_list = [(1200, 800), (1440, 1024), (1512, 982), (1728, 1117)]
         for w, h in size_list:
             button = widgets.QPushButton(f'{w}x{h}')
             button.clicked.connect(lambda _, w=w, h=h: main_window.resize(w, h))
-            self.SIZE_APP_LAYOT.addWidget(button)
+            btns_layout.addWidget(button)
 
 
         
