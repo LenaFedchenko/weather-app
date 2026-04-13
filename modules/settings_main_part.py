@@ -84,6 +84,60 @@ class Main_part_settings(widgets.QFrame):
         except Exception as error:
             print(error)
             self.LABEL_BC1.setText("(помилка)")
+    def del_prev_card(self, name_card):
+        list_cards = [(self.SEARCH_CITY, self.search_city), (self.LANGUAGE, self.APP_LANGUAGE), (self.FRAME_IMAGE, self.IMAGE_LIST), (self.SIZE_APP, self.size_app)]
+        for card, btn in list_cards:
+            # if card != "":
+            if card != "" and name_card != card:
+                card.setParent(None)
+                btn.setStyleSheet('text-align: left; background-color: transparent')
+            if name_card == card:
+                btn.setStyleSheet("background-color: rgba(0, 0, 0, 100); border-radius: 5px")
+    def delete(self, text, widget):
+        widget.setParent(None)
+        with open(self.path_json, "r", encoding="utf-8") as file:
+            self.data = json.load(file)
+        for city in self.data:
+            if city == text:
+                # print("lllll")
+                self.data.remove(city)
+        with open(self.path_json, "w") as file:
+            json.dump(self.data, file, ensure_ascii=False, indent=4)
+
+    def add_city(self):
+        with open(self.path_json, "r", encoding="utf-8") as file:
+            self.data = json.load(file)
+        if self.selected_city not in self.data:
+            self.data.append(self.selected_city)
+        with open(self.path_json, "w") as file:
+            json.dump(self.data, file, ensure_ascii=False, indent=4)
+        # добавление одного города в конец
+        LAYOYT_CITY_ADDED = widgets.QHBoxLayout()
+        city_added = Frame_create(layout = LAYOYT_CITY_ADDED, width = 512, height = 42)
+        city_added.setStyleSheet("font-size: 14px; font-weight: 400; background-color: transparent")
+        self.SCROLL_FRAME_LAYOUT.addWidget(city_added)
+        LABEL_CITY_NAME = widgets.QLabel(f"{self.selected_city}")
+        LABEL_CITY_NAME.setStyleSheet("background-color: transparent; border-radius: 0px;")
+        BUTTON_DELETE = widgets.QPushButton()
+        self.path_img2 = os.path.abspath(os.path.join(__file__, "..", "..", "media", "trash.png"))
+        self.ICON_BUTTON2 = gui.QIcon(self.path_img2)
+        BUTTON_DELETE.clicked.connect(
+                    # Значение берется в момент создания лямбды, а не при клике
+            lambda _, text=LABEL_CITY_NAME.text(): self.delete(text)
+        )
+        BUTTON_DELETE.setIcon(self.ICON_BUTTON2)
+        BUTTON_DELETE.setFixedSize(20, 20)
+        LAYOYT_CITY_ADDED.addWidget(LABEL_CITY_NAME)
+        LAYOYT_CITY_ADDED.addStretch()
+        LAYOYT_CITY_ADDED.addWidget(BUTTON_DELETE)
+
+    def get_main_window(self):
+        parent = self.parent()
+        while parent is not None:
+            if isinstance(parent, widgets.QMainWindow):
+                return parent
+            parent = parent.parent()
+        return None
     def search_city_pressed(self):
         self.list_country = info_country()
         
@@ -268,65 +322,36 @@ class Main_part_settings(widgets.QFrame):
         
     def app_language_pressed(self):
         self.del_prev_card(self.LANGUAGE)
-        self.LANGUAGE = Frame_create(layout = widgets.QVBoxLayout(), width = 544, height = 578, color = 'red')
+        self.LANGUAGE_LAYOUT = widgets.QVBoxLayout()
+        self.LANGUAGE = Frame_create(layout = self.LANGUAGE_LAYOUT, width = 544, height = 578, color = 'transparent')
         self.FRAME_MAIN_LAUYT.addWidget(self.LANGUAGE)
+        self.FRAME_LAYOUT_MAIN2 = widgets.QVBoxLayout()
+        self.FRAME_MAIN = Frame_create(self.FRAME_LAYOUT_MAIN2, 239, 161, 'transparent')
+        self.label_select = widgets.QLabel("Оберіть мову додатку")
+        self.FRAME_LAYOUT_MAIN2.addWidget(self.label_select)
+        self.LANGUAGE_LAYOUT.addWidget(self.FRAME_MAIN)
+
+        
+        self.frame_for_box_layout = widgets.QVBoxLayout()
+        self.frame_for_box = Frame_create(layout = self.frame_for_box_layout, width=240, height=40, color="transparent")
+        self.FRAME_LAYOUT_MAIN2.addWidget(self.frame_for_box)
+
+        self.label_lauge = widgets.QLabel("Мова додатку")
+        self.box_laugu = widgets.QComboBox()
+        self.box_laugu.setFixedSize(239, 32)
+        self.box_laugu.setStyleSheet('background-color: white; color: black; border-radius: none')
+        self.box_laugu.addItem("Украйнська")
+        self.box_laugu.addItem("English")
+
+        self.BUTTON_LANGUAGE = widgets.QPushButton(text = 'Зберегти')
+        self.BUTTON_LANGUAGE.setFixedSize(core.QSize(105, 38))
+        self.BUTTON_LANGUAGE.setStyleSheet("background-color: black; color: white")
+        self.frame_for_box_layout.addWidget(self.label_lauge)
+        self.FRAME_LAYOUT_MAIN2.addWidget(self.BUTTON_LANGUAGE)
+        self.frame_for_box_layout.addWidget(self.box_laugu)
+        self.FRAME_LAYOUT_MAIN2.addStretch()
     def image_list_pressed(self):
         self.del_prev_card(self.FRAME_IMAGE)
-        self.FRAME_IMAGE = Frame_create(layout = widgets.QVBoxLayout(), width = 544, height = 578, color = 'blue')
+        self.FRAME_IMAGE = Frame_create(layout = widgets.QVBoxLayout(), width = 544, height = 578, color = 'transparent')
         self.FRAME_MAIN_LAUYT.addWidget(self.FRAME_IMAGE)
 
-
-    def del_prev_card(self, name_card):
-        list_cards = [(self.SEARCH_CITY, self.search_city), (self.LANGUAGE, self.APP_LANGUAGE), (self.FRAME_IMAGE, self.IMAGE_LIST), (self.SIZE_APP, self.size_app)]
-        for card, btn in list_cards:
-            # if card != "":
-            if card != "" and name_card != card:
-                card.setParent(None)
-                btn.setStyleSheet('text-align: left; background-color: transparent')
-            if name_card == card:
-                btn.setStyleSheet("background-color: rgba(0, 0, 0, 100); border-radius: 5px")
-    def delete(self, text, widget):
-        widget.setParent(None)
-        with open(self.path_json, "r", encoding="utf-8") as file:
-            self.data = json.load(file)
-        for city in self.data:
-            if city == text:
-                # print("lllll")
-                self.data.remove(city)
-        with open(self.path_json, "w") as file:
-            json.dump(self.data, file, ensure_ascii=False, indent=4)
-
-    def add_city(self):
-        with open(self.path_json, "r", encoding="utf-8") as file:
-            self.data = json.load(file)
-        if self.selected_city not in self.data:
-            self.data.append(self.selected_city)
-        with open(self.path_json, "w") as file:
-            json.dump(self.data, file, ensure_ascii=False, indent=4)
-        # добавление одного города в конец
-        LAYOYT_CITY_ADDED = widgets.QHBoxLayout()
-        city_added = Frame_create(layout = LAYOYT_CITY_ADDED, width = 512, height = 42)
-        city_added.setStyleSheet("font-size: 14px; font-weight: 400; background-color: transparent")
-        self.SCROLL_FRAME_LAYOUT.addWidget(city_added)
-        LABEL_CITY_NAME = widgets.QLabel(f"{self.selected_city}")
-        LABEL_CITY_NAME.setStyleSheet("background-color: transparent; border-radius: 0px;")
-        BUTTON_DELETE = widgets.QPushButton()
-        self.path_img2 = os.path.abspath(os.path.join(__file__, "..", "..", "media", "trash.png"))
-        self.ICON_BUTTON2 = gui.QIcon(self.path_img2)
-        BUTTON_DELETE.clicked.connect(
-                    # Значение берется в момент создания лямбды, а не при клике
-            lambda _, text=LABEL_CITY_NAME.text(): self.delete(text)
-        )
-        BUTTON_DELETE.setIcon(self.ICON_BUTTON2)
-        BUTTON_DELETE.setFixedSize(20, 20)
-        LAYOYT_CITY_ADDED.addWidget(LABEL_CITY_NAME)
-        LAYOYT_CITY_ADDED.addStretch()
-        LAYOYT_CITY_ADDED.addWidget(BUTTON_DELETE)
-
-    def get_main_window(self):
-        parent = self.parent()
-        while parent is not None:
-            if isinstance(parent, widgets.QMainWindow):
-                return parent
-            parent = parent.parent()
-        return None
