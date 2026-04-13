@@ -256,9 +256,9 @@ class Main_part_settings(widgets.QFrame):
         main_window = self.get_main_window()
         size_list = [(1200, 800), (1440, 1024), (1512, 982), (1728, 1117)]
         for w, h in size_list:
-            button = widgets.QPushButton(f'{w}x{h}')
-            button.clicked.connect(lambda _, w=w, h=h: main_window.resize(w, h))
-            btns_layout.addWidget(button)
+            radio = widgets.QRadioButton(f'{w}x{h}')
+            radio.toggled.connect(lambda checked, w=w, h=h: checked and main_window.resize(w, h))
+            btns_layout.addWidget(radio)
 
 
         
