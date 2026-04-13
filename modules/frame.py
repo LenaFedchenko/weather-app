@@ -6,7 +6,7 @@ class Frame_create(widgets.QFrame):
         if color != None:
             self.setStyleSheet(f"background-color: {color}; ")
         if width != None and height != None:
-            self.setFixedSize(width, height)
+            # self.setFixedSize(width, height)
             self.setMinimumSize(width, height)
             self.setMaximumSize(width*2, height*2)
             self.setSizePolicy(

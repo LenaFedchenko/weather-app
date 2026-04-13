@@ -250,9 +250,13 @@ class Main_part_settings(widgets.QFrame):
         self.SIZE_APP_LAYOT.setAlignment(core.Qt.AlignmentFlag.AlignTop)
         self.SIZE_APP = Frame_create(layout = self.SIZE_APP_LAYOT, width = 544, height = 578, color = 'transparent')
         self.FRAME_MAIN_LAUYT.addWidget(self.SIZE_APP)
+        self.window_size_lable = widgets.QLabel("Оберіть розмір додатку")
+        self.window_size_lable.setStyleSheet('font-size: 18px; font-weight: 400px')
+        self.SIZE_APP_LAYOT.addWidget(self.window_size_lable)
         btns_layout = widgets.QVBoxLayout()
-        btns = Frame_create(btns_layout, 239, 219, "red")
+        btns = Frame_create(btns_layout, 239, 119, "transparent")
         self.SIZE_APP_LAYOT.addWidget(btns)
+        self.SIZE_APP_LAYOT.addStretch()
         main_window = self.get_main_window()
         size_list = [(1200, 800), (1440, 1024), (1512, 982), (1728, 1117)]
         for w, h in size_list:
