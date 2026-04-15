@@ -32,7 +32,10 @@ def info_for_card(city_name: str):
         "13n": "13n.png",
         "50n": "50n.png"
     }
-    icon_get = icon_dict[icon]
+    try:
+        icon_get = icon_dict[icon]
+    except:
+        icon_get = icon_dict["01d"]
     return city_name, temp, info_weather, max_temp, min_temp, timezone_offset, icon_get
 
 

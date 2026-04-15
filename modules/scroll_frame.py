@@ -11,7 +11,7 @@ class Scroll_frame(widgets.QScrollArea):
         self.path_json = os.path.abspath(os.path.join(__file__, "..", "..", "static", "json", "countries.json"))
         with open(self.path_json, "r", encoding="utf-8") as file:
             # список всех городов с джсона
-            data = json.load(file)
+            self.data = json.load(file)
         self.setVerticalScrollBarPolicy(core.Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         # self.setFixedSize(370, 727)
         self.setMinimumSize(370, 727)
@@ -29,8 +29,8 @@ class Scroll_frame(widgets.QScrollArea):
         self.SCROLL_FRAME_LAYOUT.setContentsMargins(0, 0, 0, 0)
         self.SCROLL_FRAME_LAYOUT.setAlignment(core.Qt.AlignmentFlag.AlignTop)
         self.SCROLL_FRAME.setLayout(self.SCROLL_FRAME_LAYOUT)
-        if data:
-            for city in data:
+        if self.data:
+            for city in self.data:
                 self.setWidget(self.SCROLL_FRAME)
                 try:
                     
@@ -42,19 +42,44 @@ class Scroll_frame(widgets.QScrollArea):
                     self.SCROLL_FRAME_LAYOUT.addWidget(card)
                 except Exception as error:
                     print(error)
+    def refresh_ui(self):
+        # удалить старый фрейм
+        self.SCROLL_FRAME.deleteLater()
+
+        # создать новый
+        self.SCROLL_FRAME = widgets.QFrame(parent=self)
+        self.SCROLL_FRAME_LAYOUT = widgets.QVBoxLayout(self.SCROLL_FRAME)
+
+        # заново загрузить данные
+        with open(self.path_json, "r", encoding="utf-8") as file:
+            self.data = json.load(file)
+
+        # добавить карточки
+        for city in self.data:
+            card = Card(
+                city_name_from_list=city,
+                right_layout_frame=self.right_layout_frame,
+                content_frame=self.content_frame
+            )
+            self.SCROLL_FRAME_LAYOUT.addWidget(card)
+
+        # установить обратно
+        self.setWidget(self.SCROLL_FRAME)
+    def mousePressEvent(self, event):
+        self.refresh_ui()
     def city_list(self, city):
         self.LIST_CITY = city
         try:
             with open(self.path_json, "r", encoding="utf-8") as file:
-                data = json.load(file)
+                self.data = json.load(file)
         # если чтото не так с джсоном
         except (FileNotFoundError, json.JSONDecodeError):
-            data = []  
-        if self.LIST_CITY not in data:
-            data.append(self.LIST_CITY)
+            self.data = []  
+        if self.LIST_CITY not in self.data:
+            self.data.append(self.LIST_CITY)
 
             with open(self.path_json, "w") as file:
-                json.dump(data, file, ensure_ascii=False, indent=4)
+                json.dump(self.data, file, ensure_ascii=False, indent=4)
             self.setWidget(self.SCROLL_FRAME)
             try:
                 card = Card(

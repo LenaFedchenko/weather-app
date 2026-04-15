@@ -7,7 +7,7 @@ from datetime import datetime, timedelta, timezone
 from .main_info_weather import MainInfoWeather
 from .graphic import Graphic
 from .weather_per_hour import Weather_per_hour
-from .search import Block_search
+
 
 class Card(widgets.QFrame):
     active_card = None
