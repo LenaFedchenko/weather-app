@@ -9,6 +9,7 @@ from .scroll_frame import Scroll_frame
 from .frame import Frame_create
 from .search import Block_search
 
+
 class MainWindow(widgets.QMainWindow):
     def __init__(self, window_width: int, window_height: int):
         widgets.QMainWindow.__init__(self)

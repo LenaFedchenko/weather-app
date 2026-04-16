@@ -9,17 +9,20 @@ from .modal_settings import Modal_settings
 from PyQt6 import QtWidgets as widgets
 
 
-class Block_search:
+class Block_search(widgets.QWidget):
     def __init__(self, parent, content_frame):
+        widgets.QWidget.__init__(self)
         self.content_frame = content_frame
         self.LAYOUT = widgets.QHBoxLayout()
         self.LAYOUT.setContentsMargins(0, 0, 0, 0)
-        self.block_parent = Frame_create(self.LAYOUT, width = 790, height = 40, color = "transparent")
-        parent.addWidget(self.block_parent)
+        # self.block_parent = Frame_create(self.LAYOUT, width = 790, height = 40, color = "transparent")
+        self.setFixedSize(790, 40)
+        self.setLayout(self.LAYOUT)
+        parent.addWidget(self)
         layiut_sett = widgets.QHBoxLayout()
         layiut_sett.setContentsMargins(0, 0, 0, 0)
         frame_settings = Frame_create(layiut_sett, 175, 36)
-
+        self.ITEM = "Українська"
         self.button = widgets.QPushButton(parent= frame_settings)
         self.button.setStyleSheet("border-radius: 4px; background-color: rgba(0, 0, 0, 51)")
         self.button.setFixedSize(36, 36)
@@ -90,4 +93,14 @@ class Block_search:
         self.MODAL.show()
 
     def settings(self):
-        settings_modal = Modal_settings(self.content_frame)
+        self.settings_modal = Modal_settings(self.content_frame)
+    def mousePressEvent(self, event):
+        print('jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj')
+        self.ITEM = self.settings_modal.ITEM
+        self.update_language()
+        # print(self.ITEM)
+    def update_language(self):
+        if self.settings_modal.ITEM == 'Українська':
+            self.LABEL.setText('Налаштування')
+        else:
+            self.LABEL.setText('Settings')

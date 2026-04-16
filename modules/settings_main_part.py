@@ -32,7 +32,6 @@ class Main_part_settings(widgets.QFrame):
         self.APP_LANGUAGE.clicked.connect(self.app_language_pressed)
         self.IMAGE_LIST = widgets.QPushButton(text = "Списки зображень")
         self.IMAGE_LIST.clicked.connect(self.image_list_pressed)
-
         self.search_city.setStyleSheet('text-align: left;')
         self.size_app.setStyleSheet('text-align: left;')
         self.APP_LANGUAGE.setStyleSheet('text-align: left;')
@@ -60,6 +59,7 @@ class Main_part_settings(widgets.QFrame):
         self.SIZE_APP = ""
         self.WEB_VIEW = webengine.QWebEngineView()
         self.WEB_VIEW.setFixedSize(core.QSize(289, 276))
+        self.ITEM = "Українська"
         
     def button_function(self, text):
         self.selected_country = text
@@ -340,10 +340,11 @@ class Main_part_settings(widgets.QFrame):
         self.box_laugu = widgets.QComboBox()
         self.box_laugu.setFixedSize(239, 32)
         self.box_laugu.setStyleSheet('background-color: white; color: black; border-radius: none')
-        self.box_laugu.addItem("Украйнська")
+        self.box_laugu.addItem("Українська")
         self.box_laugu.addItem("English")
 
         self.BUTTON_LANGUAGE = widgets.QPushButton(text = 'Зберегти')
+        self.BUTTON_LANGUAGE.clicked.connect(self.get_language)
         self.BUTTON_LANGUAGE.setFixedSize(core.QSize(105, 38))
         self.BUTTON_LANGUAGE.setStyleSheet("background-color: black; color: white")
         self.frame_for_box_layout.addWidget(self.label_lauge)
@@ -355,3 +356,6 @@ class Main_part_settings(widgets.QFrame):
         self.FRAME_IMAGE = Frame_create(layout = widgets.QVBoxLayout(), width = 544, height = 578, color = 'transparent')
         self.FRAME_MAIN_LAUYT.addWidget(self.FRAME_IMAGE)
 
+    def get_language(self):
+        self.ITEM = self.box_laugu.currentText()
+        # print(self.ITEM)
