@@ -6,6 +6,7 @@ import json, os
 class Scroll_frame(widgets.QScrollArea):
     def __init__(self, parent, right_layout_frame, content_frame):
         widgets.QScrollArea.__init__(self, parent = parent)
+        self.TEMP = None
         self.right_layout_frame = right_layout_frame
         self.content_frame = content_frame
         self.path_json = os.path.abspath(os.path.join(__file__, "..", "..", "static", "json", "countries.json"))
@@ -34,12 +35,13 @@ class Scroll_frame(widgets.QScrollArea):
                 self.setWidget(self.SCROLL_FRAME)
                 try:
                     
-                    card = Card(
+                    self.card = Card(
                         city_name_from_list= city,
                         right_layout_frame= self.right_layout_frame,
                         content_frame = self.content_frame
                         )
-                    self.SCROLL_FRAME_LAYOUT.addWidget(card)
+                    self.TEMP = self.card.TEMP
+                    self.SCROLL_FRAME_LAYOUT.addWidget(self.card)
                 except Exception as error:
                     print(error)
     def refresh_ui(self):
@@ -56,12 +58,13 @@ class Scroll_frame(widgets.QScrollArea):
 
         # добавить карточки
         for city in self.data:
-            card = Card(
+            self.card = Card(
                 city_name_from_list=city,
                 right_layout_frame=self.right_layout_frame,
                 content_frame=self.content_frame
             )
-            self.SCROLL_FRAME_LAYOUT.addWidget(card)
+            self.TEMP = self.card.TEMP
+            self.SCROLL_FRAME_LAYOUT.addWidget(self.card)
 
         # установить обратно
         self.setWidget(self.SCROLL_FRAME)
@@ -82,15 +85,22 @@ class Scroll_frame(widgets.QScrollArea):
                 json.dump(self.data, file, ensure_ascii=False, indent=4)
             self.setWidget(self.SCROLL_FRAME)
             try:
-                card = Card(
+                self.card = Card(
                     city_name_from_list= self.LIST_CITY,
                     right_layout_frame= self.right_layout_frame,
                     content_frame = self.content_frame
                     )
-                self.SCROLL_FRAME_LAYOUT.addWidget(card)
+                self.TEMP = self.card.TEMP
+                self.SCROLL_FRAME_LAYOUT.addWidget(self.card)
             except Exception as error:
                 print(error)
 
+    def update_lang(self, lang):
+        print("j", lang)
+        if lang == "uk":
+            self.card.TEMP.setText(f"Макс.:{self.card.MAX_TEMP}°, мін.:{self.card.MIN_TEMP}°C")
+        elif lang == "en":
+            self.card.TEMP.setText(f"Max.:{self.card.MAX_TEMP}°, Min.:{self.card.MIN_TEMP}°C")
 
 
 

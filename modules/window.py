@@ -15,7 +15,6 @@ class MainWindow(widgets.QMainWindow):
         widgets.QMainWindow.__init__(self)
         
         self.setWindowFlags(core.Qt.WindowType.FramelessWindowHint)
-        
         self.WINDOW_WIDTH = window_width
         self.WINDOW_HEIGHT = window_height
         self.SCREEN = app_obj.primaryScreen()
@@ -120,7 +119,7 @@ class MainWindow(widgets.QMainWindow):
         self.scroll_area = Scroll_frame(left_frame, self.LAYOUT_RIGHT_FRAME, self.LAYOUT_RIGHT_FRAME)
         self.active_search = Block_search(
             parent= self.LAYOUT_RIGHT_FRAME,
-            content_frame= self.content_frame
+            content_frame= self.content_frame,
         )
         self.BUTTON_ENTER  = None
         self.active_search.SEARCH_BOX.textChanged.connect(self.result_search)
@@ -164,4 +163,18 @@ class MainWindow(widgets.QMainWindow):
         self.scroll_area.city_list(self.TEXT_ENTER)
     def clear_search(self):
         self.active_search.SEARCH_BOX.clear()
-main_window = MainWindow(window_width = 1200, window_height = 800)
+    def update_language(self, lang):
+        self.scroll_area.update_lang(lang)
+        if lang == "Українська":
+            if self.BUTTON_ENTER != None:
+                self.BUTTON_ENTER = widgets.QPushButton("Додати")
+            self.active_search.SEARCH_BOX.setPlaceholderText('Пошук')
+            self.active_search.LABEL.setText('Налаштування')
+            # self.scroll_area.TEMP.setText(f"Макс.:{self.scroll_area.TEMP}°, мін.:{self.scroll_area.TEMP}°")
+        else:
+            if self.BUTTON_ENTER != None:
+                self.BUTTON_ENTER = widgets.QPushButton("Add")
+            self.active_search.SEARCH_BOX.setPlaceholderText('Search')
+            self.active_search.LABEL.setText('Settings')
+            # self.scroll_area.TEMP.setText(f"Max.:{self.scroll_area.TEMP}°, min.:{self.scroll_area.TEMP}°")
+# main_window = MainWindow(window_width = 1200, window_height = 800)

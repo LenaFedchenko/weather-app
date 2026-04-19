@@ -191,3 +191,5 @@ class Card(widgets.QFrame):
         """)
         self.frame_line.setStyleSheet("background-color: rgba(255, 255, 255, 0.5)")
         self.location_icon.hide()
+    def update_langueage(self):
+        print("bebebe")

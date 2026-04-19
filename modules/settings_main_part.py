@@ -358,4 +358,7 @@ class Main_part_settings(widgets.QFrame):
 
     def get_language(self):
         self.ITEM = self.box_laugu.currentText()
-        # print(self.ITEM)
+        main_window = self.get_main_window()
+        
+        if main_window:
+            main_window.update_language(self.ITEM)

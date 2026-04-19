@@ -1,6 +1,7 @@
 import PyQt6.QtWidgets as widgets
 from .frame import Frame_create
 from .settings_main_part import Main_part_settings
+import PyQt6.QtCore as core
 
 class Modal_settings(widgets.QWidget):
     def __init__(self, frame):
@@ -10,6 +11,8 @@ class Modal_settings(widgets.QWidget):
         MODAL_LAYOUT = widgets.QVBoxLayout()
         # MODAL_LAYOUT.setAlignment(core.Qt.AlignmentFlag.AlignLeft)
         self.setLayout(MODAL_LAYOUT)
+        # что б модалка не позрачная была
+        self.setAttribute(core.Qt.WidgetAttribute.WA_StyledBackground, True)
         self.setStyleSheet(f"border-radius: 16px; background-color: rgba(0, 0, 0, 150)")
         self.ITEM = 'Українська'
         self.setGeometry(
@@ -43,7 +46,7 @@ class Modal_settings(widgets.QWidget):
     def mousePressEvent(self, event):
         self.ITEM = self.main_part.ITEM
         self.update_language()
-        print(self.ITEM)
+        # print(self.ITEM)
     def update_language(self):
         if self.main_part.ITEM == 'Українська':
             self.LABEL_SETTINGS.setText('Налаштування')
