@@ -7,9 +7,7 @@ class Modal_settings(widgets.QWidget):
     def __init__(self, frame):
         widgets.QWidget.__init__(self)
         self.setParent(frame)
-        # self.MODAL = widgets.QWidget(parent = frame)
         MODAL_LAYOUT = widgets.QVBoxLayout()
-        # MODAL_LAYOUT.setAlignment(core.Qt.AlignmentFlag.AlignLeft)
         self.setLayout(MODAL_LAYOUT)
         # что б модалка не позрачная была
         self.setAttribute(core.Qt.WidgetAttribute.WA_StyledBackground, True)
@@ -37,6 +35,7 @@ class Modal_settings(widgets.QWidget):
         self.CONTENT_FRAME = Frame_create(layout = self.CONTENT_LAYOUT, width = 860, height = 600, color = "transparent")
         
         self.main_part = Main_part_settings(self.CONTENT_LAYOUT)
+        # self.main_part.BUTTON_SAVE.clicked.connect(self.save)
         self.HEADER_LAYOUT.addWidget(self.LABEL_SETTINGS)
         self.HEADER_LAYOUT.addStretch()
         self.HEADER_LAYOUT.addWidget(self.CLOSE_BUTTON)
@@ -52,3 +51,5 @@ class Modal_settings(widgets.QWidget):
             self.LABEL_SETTINGS.setText('Налаштування')
         else:
             self.LABEL_SETTINGS.setText('Settings')
+    # def save(self):
+    #     print("cliked")

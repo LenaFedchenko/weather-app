@@ -6,6 +6,7 @@ import PyQt6.QtWebEngineWidgets as webengine
 import folium, io, json, os
 import PyQt6.QtCore as core
 import PyQt6.QtGui as gui
+from .load_img import ImageLoad
 
 
 class Main_part_settings(widgets.QFrame):
@@ -353,7 +354,66 @@ class Main_part_settings(widgets.QFrame):
         self.FRAME_LAYOUT_MAIN2.addStretch()
     def image_list_pressed(self):
         self.del_prev_card(self.FRAME_IMAGE)
-        self.FRAME_IMAGE = Frame_create(layout = widgets.QVBoxLayout(), width = 544, height = 578, color = 'transparent')
+        self.FRAME_IMAGE_LAYOUT = widgets.QVBoxLayout()
+        self.FRAME_IMAGE = Frame_create(layout = self.FRAME_IMAGE_LAYOUT, width = 544, height = 578, color = 'transparent')
+
+        self.LABEL_LIST = widgets.QLabel(text = 'Списки зображень')
+        self.LABEL_LIST.setStyleSheet('font-size: 18px')
+        
+        self.FRAME_LIST_LAYOUT = widgets.QVBoxLayout()
+        self.FRAME_LIST = Frame_create(self.FRAME_LIST_LAYOUT, 490, 136)
+        self.FRAME_LIST.setStyleSheet("background-color: rgba(0, 0, 0, 80); border-radius: 4px")
+
+        self.FRAME_LIST_LAYOUT2 = widgets.QVBoxLayout()
+        self.FRAME_LIST2 = Frame_create(self.FRAME_LIST_LAYOUT2, 490, 136)
+        self.FRAME_LIST2.setStyleSheet("background-color: rgba(0, 0, 0, 80); border-radius: 4px")
+
+        self.LABEL_LIST2 = widgets.QLabel(text = 'Список зображень №1')
+        self.LABEL_LIST2.setStyleSheet('font-size: 14px; background-color: transparent')
+
+        self.LABEL_LIST22 = widgets.QLabel(text = 'Список зображень №2')
+        self.LABEL_LIST22.setStyleSheet('font-size: 14px; background-color: transparent')
+
+        self.FRAME_IMAGES_LAYOUT = widgets.QHBoxLayout()
+        self.FRAME_IMAGES = Frame_create(self.FRAME_IMAGES_LAYOUT, 458, 74, 'transparent')
+        
+        self.MODERN_IMAGE1 = ImageLoad(74, 74, self.FRAME_IMAGES, 'modern1.png')
+        self.FRAME_IMAGES_LAYOUT.addWidget(self.MODERN_IMAGE1)
+        self.MODERN_IMAGE2 = ImageLoad(74, 74, self.FRAME_IMAGES, 'modern2.png')
+        self.FRAME_IMAGES_LAYOUT.addWidget(self.MODERN_IMAGE2)
+        self.MODERN_IMAGE3 = ImageLoad(74, 74, self.FRAME_IMAGES, 'modern3.png')
+        self.FRAME_IMAGES_LAYOUT.addWidget(self.MODERN_IMAGE3)
+        self.MODERN_IMAGE4 = ImageLoad(74, 74, self.FRAME_IMAGES, 'modern4.png')
+        self.FRAME_IMAGES_LAYOUT.addWidget(self.MODERN_IMAGE4)
+        self.MODERN_IMAGE5 = ImageLoad(74, 74, self.FRAME_IMAGES, 'modern5.png')
+        self.FRAME_IMAGES_LAYOUT.addWidget(self.MODERN_IMAGE5)
+        
+        self.FRAME_IMAGES_OLD_LAYOUT = widgets.QHBoxLayout()
+        self.FRAME_IMAGES_OLD = Frame_create(self.FRAME_IMAGES_OLD_LAYOUT, 458, 74, 'transparent')
+        
+        self.OLD_IMAGE1 = ImageLoad(74, 74, self.FRAME_IMAGES, 'old1.png')
+        self.FRAME_IMAGES_OLD_LAYOUT.addWidget(self.OLD_IMAGE1)
+        self.OLD_IMAGE2 = ImageLoad(74, 74, self.FRAME_IMAGES, 'old2.png')
+        self.FRAME_IMAGES_OLD_LAYOUT.addWidget(self.OLD_IMAGE2)
+        self.OLD_IMAGE3 = ImageLoad(74, 74, self.FRAME_IMAGES, 'old3.png')
+        self.FRAME_IMAGES_OLD_LAYOUT.addWidget(self.OLD_IMAGE3)
+        self.OLD_IMAGE4 = ImageLoad(74, 74, self.FRAME_IMAGES, 'old4.png')
+        self.FRAME_IMAGES_OLD_LAYOUT.addWidget(self.OLD_IMAGE4)
+        self.OLD_IMAGE5 = ImageLoad(74, 74, self.FRAME_IMAGES, 'old5.png')
+        self.FRAME_IMAGES_OLD_LAYOUT.addWidget(self.OLD_IMAGE5)
+        
+        self.BUTTON_SAVE = widgets.QPushButton(text = 'Зберегти')
+        self.BUTTON_SAVE.setFixedSize(105, 38)
+        self.BUTTON_SAVE.setStyleSheet('border-radius: 4px; background-color: black; color: white')
+        self.FRAME_LIST_LAYOUT.addWidget(self.LABEL_LIST2)
+        self.FRAME_LIST_LAYOUT2.addWidget(self.LABEL_LIST22)
+        self.FRAME_LIST_LAYOUT.addWidget(self.FRAME_IMAGES)
+        self.FRAME_LIST_LAYOUT2.addWidget(self.FRAME_IMAGES_OLD)
+        self.FRAME_IMAGE_LAYOUT.addWidget(self.LABEL_LIST)
+        self.FRAME_IMAGE_LAYOUT.addWidget(self.FRAME_LIST)
+        self.FRAME_IMAGE_LAYOUT.addWidget(self.FRAME_LIST2)
+        self.FRAME_IMAGE_LAYOUT.addWidget(self.BUTTON_SAVE)
+        self.FRAME_IMAGE_LAYOUT.addStretch()
         self.FRAME_MAIN_LAUYT.addWidget(self.FRAME_IMAGE)
 
     def get_language(self):

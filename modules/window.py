@@ -154,7 +154,6 @@ class MainWindow(widgets.QMainWindow):
     def add_city(self):
         self.TEXT_ENTER = self.active_search.SEARCH_BOX.text()
         self.TEXT_ENTER = self.active_search.button_city.text()
-        # self.active_search.reset_search()
         self.active_search.SEARCH_BOX.setText(self.TEXT_ENTER)
     def add_city_btn(self):
         self.TEXT_ENTER = self.active_search.SEARCH_BOX.text()
@@ -170,11 +169,8 @@ class MainWindow(widgets.QMainWindow):
                 self.BUTTON_ENTER = widgets.QPushButton("Додати")
             self.active_search.SEARCH_BOX.setPlaceholderText('Пошук')
             self.active_search.LABEL.setText('Налаштування')
-            # self.scroll_area.TEMP.setText(f"Макс.:{self.scroll_area.TEMP}°, мін.:{self.scroll_area.TEMP}°")
         else:
             if self.BUTTON_ENTER != None:
                 self.BUTTON_ENTER = widgets.QPushButton("Add")
             self.active_search.SEARCH_BOX.setPlaceholderText('Search')
             self.active_search.LABEL.setText('Settings')
-            # self.scroll_area.TEMP.setText(f"Max.:{self.scroll_area.TEMP}°, min.:{self.scroll_area.TEMP}°")
-# main_window = MainWindow(window_width = 1200, window_height = 800)
