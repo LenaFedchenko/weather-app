@@ -154,6 +154,7 @@ class Main_part_settings(widgets.QFrame):
         self.added_cities_layout = widgets.QVBoxLayout()
         self.added_cities = Frame_create(self.added_cities_layout, 524, 197, "pink")
         self.added_cities.setStyleSheet("border-radius: 0px; ")
+        
         self.ADDED_TEXT_CITY = widgets.QLabel("Додані міста")
         self.ADDED_TEXT_CITY.setStyleSheet("font-size: 18px; font-weight: 400")
         self.added_cities_layout.addWidget(self.ADDED_TEXT_CITY)

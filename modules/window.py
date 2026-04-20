@@ -169,8 +169,14 @@ class MainWindow(widgets.QMainWindow):
                 self.BUTTON_ENTER = widgets.QPushButton("Додати")
             self.active_search.SEARCH_BOX.setPlaceholderText('Пошук')
             self.active_search.LABEL.setText('Налаштування')
+            self.scroll_area.update_lang("uk")
+            self.scroll_area.card.active_info_weather.LABEL.setText("Поточна позиція")
+            # self.scroll_area.card.active_info_weather.LABEL_4.setText(f"Макс.:{self.scroll_area.card.active_info_weather.max_temp}°, мін.:{self.scroll_area.card.active_info_weather.min_temp}°")
         else:
             if self.BUTTON_ENTER != None:
                 self.BUTTON_ENTER = widgets.QPushButton("Add")
             self.active_search.SEARCH_BOX.setPlaceholderText('Search')
             self.active_search.LABEL.setText('Settings')
+            self.scroll_area.update_lang("en")
+            self.scroll_area.card.active_info_weather.LABEL.setText("Current position")
+            # self.scroll_area.card.active_info_weather.LABEL_4.setText(f"Max.:{self.scroll_area.card.active_info_weather.max_temp}°, min.:{self.scroll_area.card.active_info_weather.min_temp}°")

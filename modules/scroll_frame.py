@@ -6,6 +6,7 @@ import json, os
 class Scroll_frame(widgets.QScrollArea):
     def __init__(self, parent, right_layout_frame, content_frame):
         widgets.QScrollArea.__init__(self, parent = parent)
+        self.cards = []
         self.TEMP = None
         self.right_layout_frame = right_layout_frame
         self.content_frame = content_frame
@@ -40,6 +41,7 @@ class Scroll_frame(widgets.QScrollArea):
                         right_layout_frame= self.right_layout_frame,
                         content_frame = self.content_frame
                         )
+                    self.cards.append(self.card)
                     self.TEMP = self.card.TEMP
                     self.SCROLL_FRAME_LAYOUT.addWidget(self.card)
                 except Exception as error:
@@ -63,6 +65,7 @@ class Scroll_frame(widgets.QScrollArea):
                 right_layout_frame=self.right_layout_frame,
                 content_frame=self.content_frame
             )
+            self.cards.append(self.card)
             self.TEMP = self.card.TEMP
             self.SCROLL_FRAME_LAYOUT.addWidget(self.card)
 
@@ -90,6 +93,7 @@ class Scroll_frame(widgets.QScrollArea):
                     right_layout_frame= self.right_layout_frame,
                     content_frame = self.content_frame
                     )
+                self.cards.append(self.card)
                 self.TEMP = self.card.TEMP
                 self.SCROLL_FRAME_LAYOUT.addWidget(self.card)
             except Exception as error:
@@ -97,10 +101,11 @@ class Scroll_frame(widgets.QScrollArea):
 
     def update_lang(self, lang):
         print("j", lang)
-        if lang == "uk":
-            self.card.TEMP.setText(f"Макс.:{self.card.MAX_TEMP}°, мін.:{self.card.MIN_TEMP}°C")
-        elif lang == "en":
-            self.card.TEMP.setText(f"Max.:{self.card.MAX_TEMP}°, Min.:{self.card.MIN_TEMP}°C")
+        for card in self.cards:
+            if lang == "uk":
+                card.TEMP.setText(f"Макс.:{self.card.MAX_TEMP}°, мін.:{self.card.MIN_TEMP}°C")
+            elif lang == "en":
+                card.TEMP.setText(f"Max.:{self.card.MAX_TEMP}°, Min.:{self.card.MIN_TEMP}°C")
 
 
 
