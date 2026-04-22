@@ -4,6 +4,7 @@ import json, os
 from .frame import Frame_create
 from utils import api_request_func
 from .load_img import ImageLoad
+import config
 
 class Graphic:
     def __init__(self, content_frame, name_city):
@@ -27,8 +28,10 @@ class Graphic:
             IMAGE = ImageLoad(16, 16, frame1, f'mini_icons/{icon}.png')
             FRAME1_LAYOUT.addWidget(IMAGE)
         self.FRAME_LAYOUT.addWidget(frame1)
-
-        self.LABEL = widgets.QLabel(text = "Прогноз на 12 годин", parent=frame_labl)
+        if config.LANGUAGE == "uk":
+            self.LABEL = widgets.QLabel(text = "Прогноз на 12 годин", parent=frame_labl)
+        else:
+            self.LABEL = widgets.QLabel(text = "12-hour forecast", parent=frame_labl)
         self.LABEL.setStyleSheet('font-size: 16px')
         self.LABEL.setFixedWidth(200)
         self.FRAME2_LAYOUT = widgets.QHBoxLayout()

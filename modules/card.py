@@ -7,6 +7,7 @@ from datetime import datetime, timedelta, timezone
 from .main_info_weather import MainInfoWeather
 from .graphic import Graphic
 from .weather_per_hour import Weather_per_hour
+import config
 
 
 class Card(widgets.QFrame):
@@ -77,7 +78,10 @@ class Card(widgets.QFrame):
         self.TIME.setStyleSheet("font-size: 12px; background-color: transparent; font-weight: 700")
 
         self.WEATER_FEELING = widgets.QLabel(parent=frame2, text= self.DECS_WEATH)
-        self.TEMP = widgets.QLabel(parent=frame2, text=f"Макс.:{self.MAX_TEMP}°, мін.:{self.MIN_TEMP}°s")
+        if config.LANGUAGE == "uk":
+            self.TEMP = widgets.QLabel(parent=frame2, text=f"Макс.:{self.MAX_TEMP}°, мін.:{self.MIN_TEMP}°s")
+        else:
+            self.TEMP = widgets.QLabel(parent=frame2, text=f"Max.:{self.MAX_TEMP}°, min.:{self.MIN_TEMP}°s")
         self.WEATER_FEELING.setStyleSheet("font-size: 12px; background-color: transparent; font-weight: 700")
         self.TEMP.setStyleSheet("font-size: 12px; background-color: transparent; font-weight: 700")
         self.TEMP.setAlignment(core.Qt.AlignmentFlag.AlignRight)
@@ -100,6 +104,7 @@ class Card(widgets.QFrame):
     
         
     def select_card(self):
+        print("Language:", config.LANGUAGE)
         city_name, temp, info_weather, max_temp, min_temp, timezone_offset, img = info_for_card(self.city_name_from_list)
         self.CITY_NAME2 = city_name
         self.TEMP2 = temp
@@ -118,7 +123,7 @@ class Card(widgets.QFrame):
         for num in date:
             new_date += str(num) + "."
         new_date = new_date[:-1]
-        days_ua = {
+        days_ua1 = {
             "Monday": "Понеділок",
             "Tuesday": "Вівторок",
             "Wednesday": "Середа",
@@ -127,9 +132,21 @@ class Card(widgets.QFrame):
             "Saturday": "Субота",
             "Sunday": "Неділя",
         }
+        days_ua2 = {
+            "Monday": "Monday",
+            "Tuesday": "Tuesday",
+            "Wednesday": "Wednesday",
+            "Thursday": "Thursday",
+            "Friday": "Friday",
+            "Saturday": "Saturday",
+            "Sunday": "Sunday"
+        }
 
         day_en = self.city_time.strftime("%A")
-        day = days_ua.get(day_en, day_en)
+        if config.LANGUAGE == "uk":
+            day = days_ua1.get(day_en, day_en)
+        else:
+            day = days_ua2.get(day_en, day_en)
         if Card.active_search:
             Card.active_search.reset_search()
         # Сброс предыдущей активной карточки
@@ -173,7 +190,10 @@ class Card(widgets.QFrame):
         # Обновляем визуальные элементы после новых запросов в апи
         self.CITY_NAME.setText(self.CITY_NAME2)
         self.DEGREE.setText(f"{self.TEMP2}°")
-        self.TEMP.setText(f"Макс.:{self.MAX_TEMP}°, мін.:{self.MIN_TEMP}°")
+        if config.LANGUAGE == "uk":
+            self.TEMP.setText(f"Макс.:{self.MAX_TEMP}°, мін.:{self.MIN_TEMP}°")
+        else:
+            self.TEMP.setText(f"Max.:{self.MAX_TEMP}°, min.:{self.MIN_TEMP}°")
         self.WEATER_FEELING.setText(self.DECS_WEATH)
         self.TIME.setText(self.time_final)
 

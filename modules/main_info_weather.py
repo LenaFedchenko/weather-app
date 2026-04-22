@@ -4,6 +4,7 @@ import PyQt6.QtGui as gui
 import PyQt6.QtCore as core
 import os
 from .load_img import ImageLoad
+import config
 
 class MainInfoWeather():
     def __init__(self, content_frame, desc, degree, city_name, max_temp, min_temp, day_param, date_param, time_clock, name_img):
@@ -35,8 +36,10 @@ class MainInfoWeather():
         group = Frame_create(group_layout, 358, 40, "transparent")
 
         self.LABEL_ICON = ImageLoad(16, 16, group, 'location.png')
-
-        self.LABEL = widgets.QLabel("Поточна позиція")
+        if config.LANGUAGE == "uk":
+            self.LABEL = widgets.QLabel("Поточна позиція")
+        else:
+            self.LABEL = widgets.QLabel("Current location")
         self.LABEL.setStyleSheet("font-size: 16px; background-color: transparent")
 
         group_layout.addWidget(self.LABEL_ICON)
@@ -69,7 +72,10 @@ class MainInfoWeather():
         self.LABEL_3.setStyleSheet("font-size: 24px; background-color: transparent")
         self.LABEL_3.setAlignment(core.Qt.AlignmentFlag.AlignCenter)
 
-        self.LABEL_4 = widgets.QLabel(f"Макс.:{max_temp}°, мін.:{min_temp}°")
+        if config.LANGUAGE == "uk":
+            self.LABEL_4 = widgets.QLabel(f"Макс.:{max_temp}°, мін.:{min_temp}°")
+        else:
+            self.LABEL_4 = widgets.QLabel(f"Max.:{max_temp}°, min.:{min_temp}°")
         self.LABEL_4.setStyleSheet("font-size: 16px; background-color: transparent")
         self.LABEL_4.setAlignment(core.Qt.AlignmentFlag.AlignCenter)
 
@@ -89,7 +95,10 @@ class MainInfoWeather():
         group2_layout = widgets.QVBoxLayout()
         group2 = Frame_create(group2_layout, 358, 45, color= "transparent")
 
-        self.TODAY = widgets.QLabel("Сьогодні")
+        if config.LANGUAGE == "uk":
+            self.TODAY = widgets.QLabel("Сьогодні")
+        else:            
+            self.TODAY = widgets.QLabel("Today")
         self.TODAY.setStyleSheet("font-size: 16px")
         line2 = widgets.QFrame()
         line2.setFixedHeight(1)

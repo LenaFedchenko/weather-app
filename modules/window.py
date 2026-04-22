@@ -8,6 +8,7 @@ from .title_bar import Title_bar
 from .scroll_frame import Scroll_frame
 from .frame import Frame_create
 from .search import Block_search
+import config
 
 
 class MainWindow(widgets.QMainWindow):
@@ -130,7 +131,10 @@ class MainWindow(widgets.QMainWindow):
     def result_search(self):
         self.TEXT_ENTER1 = self.active_search.SEARCH_BOX.text()
         if self.BUTTON_ENTER == None:
-            self.BUTTON_ENTER = widgets.QPushButton("Додати")
+            if config.LANGUAGE == "uk":
+                self.BUTTON_ENTER = widgets.QPushButton("Додати")
+            else:            
+                self.BUTTON_ENTER = widgets.QPushButton("Add")
             self.BUTTON_ENTER.setFixedSize(97, 36)
             self.BUTTON_ENTER.clicked.connect(self.add_city_btn)
             self.BUTTON_ENTER.setStyleSheet("border-radius: 4px; background-color: rgba(0, 0, 0, 100); font-size: 17px")
@@ -170,7 +174,8 @@ class MainWindow(widgets.QMainWindow):
             self.active_search.SEARCH_BOX.setPlaceholderText('Пошук')
             self.active_search.LABEL.setText('Налаштування')
             self.scroll_area.update_lang("uk")
-            self.scroll_area.card.active_info_weather.LABEL.setText("Поточна позиція")
+            if self.scroll_area.card.active_info_weather != None:
+                self.scroll_area.card.active_info_weather.LABEL.setText("Поточна позиція")
             # self.scroll_area.card.active_info_weather.LABEL_4.setText(f"Макс.:{self.scroll_area.card.active_info_weather.max_temp}°, мін.:{self.scroll_area.card.active_info_weather.min_temp}°")
         else:
             if self.BUTTON_ENTER != None:
@@ -178,5 +183,6 @@ class MainWindow(widgets.QMainWindow):
             self.active_search.SEARCH_BOX.setPlaceholderText('Search')
             self.active_search.LABEL.setText('Settings')
             self.scroll_area.update_lang("en")
-            self.scroll_area.card.active_info_weather.LABEL.setText("Current position")
+            if self.scroll_area.card.active_info_weather != None:
+                self.scroll_area.card.active_info_weather.LABEL.setText("Current position")
             # self.scroll_area.card.active_info_weather.LABEL_4.setText(f"Max.:{self.scroll_area.card.active_info_weather.max_temp}°, min.:{self.scroll_area.card.active_info_weather.min_temp}°")

@@ -5,6 +5,7 @@ from .frame import Frame_create
 from .load_img import ImageLoad
 import os
 from utils.api_request import api_request_func
+import config
 
 class Weather_per_hour:
     def __init__(self, frame, name_city):
@@ -36,7 +37,10 @@ class Weather_per_hour:
         self.FRAME_PEAGTIJ_LAYOUT.setContentsMargins(0, 0, 0, 0)
         self.LAYOUT_MAIN.addWidget(self.FRAME_PAERT)
         
-        self.LABEL = widgets.QLabel(f"{descrip[0].capitalize()} до кінця дня")
+        if config.LANGUAGE == "uk":
+            self.LABEL = widgets.QLabel(f"{descrip[0].capitalize()} до кінця дня")
+        else:            
+            self.LABEL = widgets.QLabel(f"{descrip[0].capitalize()} until the end of the day")
         line = Frame_create(widgets.QVBoxLayout(), 756, 1, "white")
 
         self.FRAME_TEXT_LAYOUT.addWidget(self.LABEL)

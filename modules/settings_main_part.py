@@ -7,6 +7,7 @@ import folium, io, json, os
 import PyQt6.QtCore as core
 import PyQt6.QtGui as gui
 from .load_img import ImageLoad
+import config
 
 
 class Main_part_settings(widgets.QFrame):
@@ -24,14 +25,25 @@ class Main_part_settings(widgets.QFrame):
         self.BUTTONS_FRAME.setStyleSheet("border-radius:0px; background-color: transparent")
         self.FRAME_MAIN_LAUYT.addWidget(self.BUTTONS_FRAME)
 
-
-        self.search_city = widgets.QPushButton(text = "Пошук міста")
+        if config.LANGUAGE == "uk":
+            self.search_city = widgets.QPushButton(text = "Пошук міста")
+        else:            
+            self.search_city = widgets.QPushButton(text = "Search city")
         self.search_city.clicked.connect(self.search_city_pressed)
-        self.size_app = widgets.QPushButton(text = "Розмір додатку")
+        if config.LANGUAGE == "uk":
+            self.size_app = widgets.QPushButton(text = "Розмір додатку")
+        else:            
+            self.size_app = widgets.QPushButton(text = "App size")
         self.size_app.clicked.connect(self.size_app_pressed)
-        self.APP_LANGUAGE = widgets.QPushButton(text = "Мова додатку")
+        if config.LANGUAGE == "uk":
+            self.APP_LANGUAGE = widgets.QPushButton(text = "Мова додатку")
+        else:            
+            self.APP_LANGUAGE = widgets.QPushButton(text = "App language")
         self.APP_LANGUAGE.clicked.connect(self.app_language_pressed)
-        self.IMAGE_LIST = widgets.QPushButton(text = "Списки зображень")
+        if config.LANGUAGE == "uk": 
+            self.IMAGE_LIST = widgets.QPushButton(text = "Списки зображень")
+        else:            
+            self.IMAGE_LIST = widgets.QPushButton(text = "Image lists")
         self.IMAGE_LIST.clicked.connect(self.image_list_pressed)
         self.search_city.setStyleSheet('text-align: left;')
         self.size_app.setStyleSheet('text-align: left;')
@@ -155,7 +167,10 @@ class Main_part_settings(widgets.QFrame):
         self.added_cities = Frame_create(self.added_cities_layout, 524, 197, "pink")
         self.added_cities.setStyleSheet("border-radius: 0px; ")
         
-        self.ADDED_TEXT_CITY = widgets.QLabel("Додані міста")
+        if config.LANGUAGE == "uk":
+            self.ADDED_TEXT_CITY = widgets.QLabel("Додані міста")
+        else:            
+            self.ADDED_TEXT_CITY = widgets.QLabel("Added cities")
         self.ADDED_TEXT_CITY.setStyleSheet("font-size: 18px; font-weight: 400")
         self.added_cities_layout.addWidget(self.ADDED_TEXT_CITY)
         self.scroll_widget = widgets.QScrollArea(parent= self.added_cities)
@@ -199,7 +214,10 @@ class Main_part_settings(widgets.QFrame):
         self.data_city = Frame_create(self.data_city_layout, 239, 301, "transparent")
 
         # Пошук міста
-        self.LABEL = widgets.QLabel("Пошук міста")
+        if config.LANGUAGE == "uk":
+            self.LABEL = widgets.QLabel("Пошук міста")
+        else:            
+            self.LABEL = widgets.QLabel("Search city")
 
         self.map_layout = widgets.QVBoxLayout()
         self.map = Frame_create(self.map_layout, 290, 301, "transparent")
@@ -207,7 +225,10 @@ class Main_part_settings(widgets.QFrame):
         self.block_inputs_layout = widgets.QVBoxLayout()
         self.block_inputs = Frame_create(self.block_inputs_layout, 249, 194, "transparent")
 
-        self.LABEL_COUNTRY = widgets.QLabel("Країна")
+        if config.LANGUAGE == "uk":
+            self.LABEL_COUNTRY = widgets.QLabel("Країна")
+        else:            
+            self.LABEL_COUNTRY = widgets.QLabel("Country")
         self.box_countre = widgets.QComboBox(parent = self.data_city)
         self.box_countre.setStyleSheet("background-color: white; color: black; border-radius: 4px")
         self.box_countre.setFixedSize(229, 32)
@@ -220,7 +241,10 @@ class Main_part_settings(widgets.QFrame):
         self.selected_country = self.box_countre.currentText()
         self.info_city_from_country = info_city_from_coutry(self.selected_country)
         
-        self.LABEL_CITY = widgets.QLabel("Місто")
+        if config.LANGUAGE == "uk":
+            self.LABEL_CITY = widgets.QLabel("Місто")
+        else:            
+            self.LABEL_CITY = widgets.QLabel("City")
         self.box_city = widgets.QComboBox(parent = self.data_city)
         self.box_city.setStyleSheet("background-color: white; color: black; border-radius: 4px")
         self.box_city.setFixedSize(209, 32)
@@ -232,12 +256,18 @@ class Main_part_settings(widgets.QFrame):
         self.selected_city = self.box_city.currentText()
 
         # self.info_selected_city_x, self.info_selected_city_y = info_geo(self.selected_city)
-        self.LABEL_COORDINATE = widgets.QLabel("Кординати")
+        if config.LANGUAGE == "uk":
+            self.LABEL_COORDINATE = widgets.QLabel("Кординати")
+        else:            
+            self.LABEL_COORDINATE = widgets.QLabel("Coordinates")
         self.box_coordinate_layout = widgets.QVBoxLayout()
         self.box_coordinate = Frame_create(layout = self.box_coordinate_layout, width = 239, height = 32)
         self.box_coordinate.setStyleSheet("background-color: white; border-radius: 4px")
 
-        self.LABEL_BC1 = widgets.QLabel("(немає даних)", self.box_coordinate)
+        if config.LANGUAGE == "uk":
+            self.LABEL_BC1 = widgets.QLabel("(немає даних)", self.box_coordinate)
+        else:            
+            self.LABEL_BC1 = widgets.QLabel("(no data)", self.box_coordinate)
         self.LABEL_BC1.setStyleSheet('color: black; font-size: 10px')
         self.box_coordinate_layout.addWidget(self.LABEL_BC1)
         try:
@@ -254,8 +284,10 @@ class Main_part_settings(widgets.QFrame):
         except Exception as error:
             print(error)
             self.LABEL_BC1.setText("(помилка)")
-
-        self.SAVE_BUTTON = widgets.QPushButton("Зберегти")
+        if config.LANGUAGE == "uk":
+            self.SAVE_BUTTON = widgets.QPushButton("Зберегти")
+        else:            
+            self.SAVE_BUTTON = widgets.QPushButton("Save")
         self.SAVE_BUTTON.clicked.connect(self.add_city)
         self.SAVE_BUTTON.setFixedSize(105, 38)
         self.SAVE_BUTTON.setStyleSheet(""" 
@@ -306,7 +338,10 @@ class Main_part_settings(widgets.QFrame):
         self.SIZE_APP_LAYOT.setAlignment(core.Qt.AlignmentFlag.AlignTop)
         self.SIZE_APP = Frame_create(layout = self.SIZE_APP_LAYOT, width = 544, height = 578, color = 'transparent')
         self.FRAME_MAIN_LAUYT.addWidget(self.SIZE_APP)
-        self.window_size_lable = widgets.QLabel("Оберіть розмір додатку")
+        if config.LANGUAGE == "uk":
+            self.window_size_lable = widgets.QLabel("Оберіть розмір додатку")
+        else:            
+            self.window_size_lable = widgets.QLabel("Choose app size")
         self.window_size_lable.setStyleSheet('font-size: 18px; font-weight: 400px')
         self.SIZE_APP_LAYOT.addWidget(self.window_size_lable)
         btns_layout = widgets.QVBoxLayout()
@@ -329,7 +364,10 @@ class Main_part_settings(widgets.QFrame):
         self.FRAME_MAIN_LAUYT.addWidget(self.LANGUAGE)
         self.FRAME_LAYOUT_MAIN2 = widgets.QVBoxLayout()
         self.FRAME_MAIN = Frame_create(self.FRAME_LAYOUT_MAIN2, 239, 161, 'transparent')
-        self.label_select = widgets.QLabel("Оберіть мову додатку")
+        if config.LANGUAGE == "uk":
+            self.label_select = widgets.QLabel("Оберіть мову додатку")
+        else:            
+            self.label_select = widgets.QLabel("Choose app language")
         self.FRAME_LAYOUT_MAIN2.addWidget(self.label_select)
         self.LANGUAGE_LAYOUT.addWidget(self.FRAME_MAIN)
 
@@ -338,14 +376,19 @@ class Main_part_settings(widgets.QFrame):
         self.frame_for_box = Frame_create(layout = self.frame_for_box_layout, width=240, height=40, color="transparent")
         self.FRAME_LAYOUT_MAIN2.addWidget(self.frame_for_box)
 
-        self.label_lauge = widgets.QLabel("Мова додатку")
+        if config.LANGUAGE == "uk":
+            self.label_lauge = widgets.QLabel("Мова додатку")
+        else:            
+            self.label_lauge = widgets.QLabel("App language")
         self.box_laugu = widgets.QComboBox()
         self.box_laugu.setFixedSize(239, 32)
         self.box_laugu.setStyleSheet('background-color: white; color: black; border-radius: none')
         self.box_laugu.addItem("Українська")
         self.box_laugu.addItem("English")
-
-        self.BUTTON_LANGUAGE = widgets.QPushButton(text = 'Зберегти')
+        if config.LANGUAGE == "uk":
+            self.BUTTON_LANGUAGE = widgets.QPushButton(text = 'Зберегти')
+        else:            
+            self.BUTTON_LANGUAGE = widgets.QPushButton(text = 'Save')
         self.BUTTON_LANGUAGE.clicked.connect(self.get_language)
         self.BUTTON_LANGUAGE.setFixedSize(core.QSize(105, 38))
         self.BUTTON_LANGUAGE.setStyleSheet("background-color: black; color: white")
@@ -358,7 +401,10 @@ class Main_part_settings(widgets.QFrame):
         self.FRAME_IMAGE_LAYOUT = widgets.QVBoxLayout()
         self.FRAME_IMAGE = Frame_create(layout = self.FRAME_IMAGE_LAYOUT, width = 544, height = 578, color = 'transparent')
 
-        self.LABEL_LIST = widgets.QLabel(text = 'Списки зображень')
+        if config.LANGUAGE == "uk":
+            self.LABEL_LIST = widgets.QLabel(text = 'Списки зображень')
+        else:            
+            self.LABEL_LIST = widgets.QLabel(text = 'Image lists')
         self.LABEL_LIST.setStyleSheet('font-size: 18px')
         
         self.FRAME_LIST_LAYOUT = widgets.QVBoxLayout()
@@ -369,10 +415,15 @@ class Main_part_settings(widgets.QFrame):
         self.FRAME_LIST2 = Frame_create(self.FRAME_LIST_LAYOUT2, 490, 136)
         self.FRAME_LIST2.setStyleSheet("background-color: rgba(0, 0, 0, 80); border-radius: 4px")
 
-        self.LABEL_LIST2 = widgets.QLabel(text = 'Список зображень №1')
+        if config.LANGUAGE == "uk":
+            self.LABEL_LIST2 = widgets.QLabel(text = 'Список зображень №1')
+        else:            
+            self.LABEL_LIST2 = widgets.QLabel(text = 'Image list №1')
         self.LABEL_LIST2.setStyleSheet('font-size: 14px; background-color: transparent')
-
-        self.LABEL_LIST22 = widgets.QLabel(text = 'Список зображень №2')
+        if config.LANGUAGE == "uk":
+            self.LABEL_LIST22 = widgets.QLabel(text = 'Список зображень №2')
+        else:            
+            self.LABEL_LIST22 = widgets.QLabel(text = 'Image list №2')
         self.LABEL_LIST22.setStyleSheet('font-size: 14px; background-color: transparent')
 
         self.FRAME_IMAGES_LAYOUT = widgets.QHBoxLayout()
@@ -403,7 +454,10 @@ class Main_part_settings(widgets.QFrame):
         self.OLD_IMAGE5 = ImageLoad(74, 74, self.FRAME_IMAGES, 'old5.png')
         self.FRAME_IMAGES_OLD_LAYOUT.addWidget(self.OLD_IMAGE5)
         
-        self.BUTTON_SAVE = widgets.QPushButton(text = 'Зберегти')
+        if config.LANGUAGE == "uk":
+            self.BUTTON_SAVE = widgets.QPushButton(text = 'Зберегти')
+        else:            
+            self.BUTTON_SAVE = widgets.QPushButton(text = 'Save')
         self.BUTTON_SAVE.setFixedSize(105, 38)
         self.BUTTON_SAVE.setStyleSheet('border-radius: 4px; background-color: black; color: white')
         self.FRAME_LIST_LAYOUT.addWidget(self.LABEL_LIST2)
@@ -419,6 +473,10 @@ class Main_part_settings(widgets.QFrame):
 
     def get_language(self):
         self.ITEM = self.box_laugu.currentText()
+        if self.ITEM == "Українська":
+            config.LANGUAGE = "uk"
+        else:
+            config.LANGUAGE = "en"
         main_window = self.get_main_window()
         
         if main_window:

@@ -1,9 +1,13 @@
 import requests, json
 from config import API_KEY
+import config
 
 
 def api_request_func(city_name: str):
-    response = requests.get(f"https://api.openweathermap.org/data/2.5/forecast?q={city_name}&units=metric&appid={API_KEY}&lang=UA&units=metric")
+    if config.LANGUAGE == "uk":
+        response = requests.get(f"https://api.openweathermap.org/data/2.5/forecast?q={city_name}&units=metric&appid={API_KEY}&lang=UA&units=metric&lang=ua")
+    else:
+        response = requests.get(f"https://api.openweathermap.org/data/2.5/forecast?q={city_name}&units=metric&appid={API_KEY}&lang=en&units=metric&lang=en")
     data_dict = response.json()
     return data_dict
 

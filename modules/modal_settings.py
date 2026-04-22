@@ -2,6 +2,7 @@ import PyQt6.QtWidgets as widgets
 from .frame import Frame_create
 from .settings_main_part import Main_part_settings
 import PyQt6.QtCore as core
+import config
 
 class Modal_settings(widgets.QWidget):
     def __init__(self, frame):
@@ -21,7 +22,10 @@ class Modal_settings(widgets.QWidget):
         )
         self.HEADER_LAYOUT = widgets.QHBoxLayout()
         self.HEADER = Frame_create(layout = self.HEADER_LAYOUT, width = 860, height = 38, color="transparent")
-        self.LABEL_SETTINGS = widgets.QLabel("Налаштування")
+        if config.LANGUAGE == "uk":
+            self.LABEL_SETTINGS = widgets.QLabel("Налаштування")
+        else:
+            self.LABEL_SETTINGS = widgets.QLabel("Settings")
         self.LABEL_SETTINGS.setStyleSheet("background-color: transparent")
         self.CLOSE_BUTTON = widgets.QPushButton(text= "X")
         def close_modal():
@@ -42,42 +46,4 @@ class Modal_settings(widgets.QWidget):
         MODAL_LAYOUT.addWidget(self.HEADER)
         MODAL_LAYOUT.addWidget(self.CONTENT_FRAME)
         self.show()
-    def mousePressEvent(self, event):
-        self.ITEM = self.main_part.ITEM
-        self.update_language()
-        # print(self.ITEM)
-    def update_language(self):
-        if self.main_part.ITEM == 'Українська':
-            self.LABEL_SETTINGS.setText('Налаштування')
-            self.main_part.BUTTON_SAVE.setText("Зберегти")
-            self.main_part.LANGUAGE_LABEL.setText("Мова")
-            self.main_part.ADDED_TEXT_CITY.setText("Додані міста")
-            self.main_part.LABEL_CITY.setText("Міста")
-            self.main_part.LABEL.setText("Пошук міста")
-            self.main_part.LABEL_COUNTRY.setText("Країна")
-            self.main_part.LABEL_COORDINATE.setText("Координати")
-            self.main_part.LABEL_BC1.setText("(Немає даних)", self.main_part.box_coordinate)
-            self.main_part.window_size_lable.setText("Оберіть розмір додатку")
-            self.main_part.label_select.setText("Оберіть мову додатку")
-            self.main_part.label_lauge.setText("Мова додатку")
-            self.main_part.LABEL_LIST.setText("Списки зображень")
-            self.main_part.LABEL_LIST2.setText("Список зображень №1")
-            self.main_part.LABEL_LIST22.setText("Список зображень №2")
-        else:
-            self.LABEL_SETTINGS.setText('Settings')
-            self.main_part.BUTTON_SAVE.setText("Save")
-            self.main_part.LANGUAGE_LABEL.setText("Language")
-            self.main_part.ADDED_TEXT_CITY.setText("Added cities")
-            self.main_part.LABEL_CITY.setText("Cities")
-            self.main_part.LABEL.setText("Search city")
-            self.main_part.LABEL_COUNTRY.setText("Country")
-            self.main_part.LABEL_COORDINATE.setText("Coordinates")
-            self.main_part.LABEL_BC1.setText("(No data)", self.main_part.box_coordinate)
-            self.main_part.window_size_lable.setText("Choose app size")
-            self.main_part.label_select.setText("Choose app language")
-            self.main_part.label_lauge.setText("App language")
-            self.main_part.LABEL_LIST.setText("Image lists")
-            self.main_part.LABEL_LIST2.setText("Image list №1")
-            self.main_part.LABEL_LIST22.setText("Image list №2")
-    # def save(self):
-    #     print("cliked")
+    

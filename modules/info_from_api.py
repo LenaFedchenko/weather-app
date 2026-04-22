@@ -55,11 +55,6 @@ def info_country():
     # print(list_country)
     return list_country
 
-# {
-#     'city': 'Ibb', 
-#     'country': 'Yemen', 
-#     'populationCounts': [{'year': '1994', 'value': '103312', 'sex': 'Both Sexes', 'reliabilty': 'Final figure, complete'}]
-# }
 def info_city_from_coutry(coutry):
     list_city = []
     api_request = api_request_city()

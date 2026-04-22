@@ -7,6 +7,7 @@ from .load_img import ImageLoad
 from .info_from_api import info_cityes
 from .modal_settings import Modal_settings
 from PyQt6 import QtWidgets as widgets
+import config
 
 
 class Block_search(widgets.QWidget):
@@ -31,7 +32,10 @@ class Block_search(widgets.QWidget):
         self.button.clicked.connect(self.settings)
         self.button.setIcon(self.ICON_BUTTON2)
         layiut_sett.addWidget(self.button)
-        self.LABEL = widgets.QLabel(parent=frame_settings, text= "Налаштування")
+        if config.LANGUAGE == "uk":
+            self.LABEL = widgets.QLabel(parent=frame_settings, text= "Налаштування")
+        else:            
+            self.LABEL = widgets.QLabel(parent=frame_settings, text= "Settings")
         self.LABEL.setStyleSheet("font-size: 14px")
         layiut_sett.addWidget(self.LABEL)
         
