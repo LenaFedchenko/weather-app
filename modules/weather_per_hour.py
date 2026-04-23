@@ -57,7 +57,13 @@ class Weather_per_hour:
         
         self.SCROLL_WEATHER = widgets.QScrollArea(parent= self.FRAME_PAERT)
         self.SCROLL_WEATHER.setHorizontalScrollBarPolicy(core.Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-        self.SCROLL_WEATHER.setFixedSize(676, 102)
+        
+        self.SCROLL_WEATHER.setMinimumSize(676, 102)
+        self.SCROLL_WEATHER.setMaximumSize(695, 122)
+        self.SCROLL_WEATHER.setSizePolicy(
+                widgets.QSizePolicy.Policy.Expanding,
+                widgets.QSizePolicy.Policy.Expanding
+            )
         self.SCROLL_WEATHER.setStyleSheet("border: none; background-color: transparent")
         self.SCROLL_WEATHER.setWidgetResizable(True)
         self.SCROLL_FRAME_WEATHER = widgets.QFrame(parent = self.SCROLL_WEATHER)

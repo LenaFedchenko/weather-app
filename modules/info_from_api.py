@@ -1,4 +1,5 @@
 from utils.api_request import api_request_func, api_request_city, api_request_geo
+# import conf
 
 def info_for_card(city_name: str):
     data = api_request_func(city_name)  # почасовой прогноз
@@ -11,7 +12,7 @@ def info_for_card(city_name: str):
     info_weather = first["weather"][0]["description"]
     timezone_offset = data["city"]["timezone"]
     icon = first["weather"][0]["icon"]
-    # print(icon)
+
     icon_dict ={
         "01d": "01d.png",
         "02d": "02d.png",

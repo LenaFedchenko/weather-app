@@ -74,6 +74,7 @@ class Main_part_settings(widgets.QFrame):
         self.WEB_VIEW = webengine.QWebEngineView()
         self.WEB_VIEW.setFixedSize(core.QSize(289, 276))
         self.ITEM = "Українська"
+        self.choose_image = "old"
         
     def button_function(self, text):
         self.selected_country = text
@@ -104,9 +105,9 @@ class Main_part_settings(widgets.QFrame):
             # if card != "":
             if card != "" and name_card != card:
                 card.setParent(None)
-                btn.setStyleSheet('text-align: left; background-color: transparent')
-            if name_card == card:
-                btn.setStyleSheet("background-color: rgba(0, 0, 0, 100); border-radius: 5px")
+            #     btn.setStyleSheet('text-align: left; background-color: transparent')
+            # if name_card == card:
+            #     btn.setStyleSheet("background-color: rgba(0, 0, 0, 100); border-radius: 5px")
     def delete(self, text, widget):
         widget.setParent(None)
         with open(self.path_json, "r", encoding="utf-8") as file:
@@ -153,6 +154,10 @@ class Main_part_settings(widgets.QFrame):
             parent = parent.parent()
         return None
     def search_city_pressed(self):
+        self.search_city.setStyleSheet("background-color: rgba(0, 0, 0, 100); border-radius: 5px")
+        self.size_app.setStyleSheet("background-color: transparent")
+        self.APP_LANGUAGE.setStyleSheet("background-color: transparent")
+        self.IMAGE_LIST.setStyleSheet("background-color: transparent")
         self.CURRENT_TAB = "search_city"
         self.list_country = info_country()
         
@@ -163,7 +168,7 @@ class Main_part_settings(widgets.QFrame):
         self.FRAME_MAIN_LAUYT.addWidget(self.SEARCH_CITY)
         
         self.search_city_layout = widgets.QHBoxLayout()
-        self.search_city = Frame_create(self.search_city_layout, 544, 331, "transparent")
+        self.search_city2 = Frame_create(self.search_city_layout, 544, 331, "transparent")
 
         self.added_cities_layout = widgets.QVBoxLayout()
         self.added_cities = Frame_create(self.added_cities_layout, 524, 197, "pink")
@@ -332,9 +337,14 @@ class Main_part_settings(widgets.QFrame):
         
         self.data_city_layout.addWidget(self.SAVE_BUTTON)
 
-        self.search_layout.addWidget(self.search_city)
+        self.search_layout.addWidget(self.search_city2)
         self.search_layout.addWidget(self.added_cities)
     def size_app_pressed(self):
+        self.search_city.setStyleSheet("background-color: transparent")
+        self.size_app.setStyleSheet("background-color: rgba(0, 0, 0, 100); border-radius: 5px")
+        self.APP_LANGUAGE.setStyleSheet("background-color: transparent")
+        self.IMAGE_LIST.setStyleSheet("background-color: transparent")
+
         self.CURRENT_TAB = "size_app"
         self.del_prev_card(self.SIZE_APP)
         self.SIZE_APP_LAYOT = widgets.QVBoxLayout()
@@ -361,6 +371,10 @@ class Main_part_settings(widgets.QFrame):
 
         
     def app_language_pressed(self):
+        self.search_city.setStyleSheet("background-color: transparent")
+        self.size_app.setStyleSheet("background-color: transparent")
+        self.APP_LANGUAGE.setStyleSheet("background-color: rgba(0, 0, 0, 100); border-radius: 5px")
+        self.IMAGE_LIST.setStyleSheet("background-color: transparent")
         self.CURRENT_TAB = "app_language"
         self.del_prev_card(self.LANGUAGE)
         self.LANGUAGE_LAYOUT = widgets.QVBoxLayout()
@@ -405,6 +419,10 @@ class Main_part_settings(widgets.QFrame):
         self.frame_for_box_layout.addWidget(self.box_laugu)
         self.FRAME_LAYOUT_MAIN2.addStretch()
     def image_list_pressed(self):
+        self.search_city.setStyleSheet("background-color: transparent")
+        self.size_app.setStyleSheet("background-color: transparent")
+        self.APP_LANGUAGE.setStyleSheet("background-color: transparent")
+        self.IMAGE_LIST.setStyleSheet("background-color: rgba(0, 0, 0, 100); border-radius: 5px")
         self.CURRENT_TAB = "image_list"
         self.del_prev_card(self.FRAME_IMAGE)
         self.FRAME_IMAGE_LAYOUT = widgets.QVBoxLayout()
@@ -437,38 +455,37 @@ class Main_part_settings(widgets.QFrame):
 
         self.FRAME_IMAGES_LAYOUT = widgets.QHBoxLayout()
         self.FRAME_IMAGES = Frame_create(self.FRAME_IMAGES_LAYOUT, 458, 74, 'transparent')
-        
-        self.MODERN_IMAGE1 = ImageLoad(74, 74, self.FRAME_IMAGES, 'modern1.png')
-        self.FRAME_IMAGES_LAYOUT.addWidget(self.MODERN_IMAGE1)
-        self.MODERN_IMAGE2 = ImageLoad(74, 74, self.FRAME_IMAGES, 'modern2.png')
-        self.FRAME_IMAGES_LAYOUT.addWidget(self.MODERN_IMAGE2)
-        self.MODERN_IMAGE3 = ImageLoad(74, 74, self.FRAME_IMAGES, 'modern3.png')
-        self.FRAME_IMAGES_LAYOUT.addWidget(self.MODERN_IMAGE3)
-        self.MODERN_IMAGE4 = ImageLoad(74, 74, self.FRAME_IMAGES, 'modern4.png')
-        self.FRAME_IMAGES_LAYOUT.addWidget(self.MODERN_IMAGE4)
-        self.MODERN_IMAGE5 = ImageLoad(74, 74, self.FRAME_IMAGES, 'modern5.png')
-        self.FRAME_IMAGES_LAYOUT.addWidget(self.MODERN_IMAGE5)
+        self.BUTTON_MODERN = widgets.QPushButton(parent = self.FRAME_IMAGES)
+        self.BUTTON_MODERN.clicked.connect(self.press_old)
+        self.FRAME_IMAGES_LAYOUT.addWidget(self.BUTTON_MODERN)
+        self.BUTTON_MODERN.setFixedSize(458, 74)
+        # self.BUTTON_MODERN.setStyleSheet('background-color: red')
+
+        self.PATH_MODERN = os.path.abspath(os.path.join(__file__, "..", "..", "media", "second_pack.png"))
+        self.ICON_BUTTION_MODERN = gui.QIcon(self.PATH_MODERN)
+        self.BUTTON_MODERN.setIconSize(core.QSize(458, 74))
+        self.BUTTON_MODERN.setIcon(self.ICON_BUTTION_MODERN)
         
         self.FRAME_IMAGES_OLD_LAYOUT = widgets.QHBoxLayout()
         self.FRAME_IMAGES_OLD = Frame_create(self.FRAME_IMAGES_OLD_LAYOUT, 458, 74, 'transparent')
+        self.BUTTON_OLD = widgets.QPushButton(parent = self.FRAME_IMAGES_OLD)
+        self.BUTTON_OLD.clicked.connect(self.press_new)
+        self.FRAME_IMAGES_OLD_LAYOUT.addWidget(self.BUTTON_OLD)
+        self.BUTTON_OLD.setFixedSize(458, 74)
+        # self.BUTTON_OLD.setStyleSheet('background-color: red')
         
-        self.OLD_IMAGE1 = ImageLoad(74, 74, self.FRAME_IMAGES, 'old1.png')
-        self.FRAME_IMAGES_OLD_LAYOUT.addWidget(self.OLD_IMAGE1)
-        self.OLD_IMAGE2 = ImageLoad(74, 74, self.FRAME_IMAGES, 'old2.png')
-        self.FRAME_IMAGES_OLD_LAYOUT.addWidget(self.OLD_IMAGE2)
-        self.OLD_IMAGE3 = ImageLoad(74, 74, self.FRAME_IMAGES, 'old3.png')
-        self.FRAME_IMAGES_OLD_LAYOUT.addWidget(self.OLD_IMAGE3)
-        self.OLD_IMAGE4 = ImageLoad(74, 74, self.FRAME_IMAGES, 'old4.png')
-        self.FRAME_IMAGES_OLD_LAYOUT.addWidget(self.OLD_IMAGE4)
-        self.OLD_IMAGE5 = ImageLoad(74, 74, self.FRAME_IMAGES, 'old5.png')
-        self.FRAME_IMAGES_OLD_LAYOUT.addWidget(self.OLD_IMAGE5)
+        self.PATH_OLD = os.path.abspath(os.path.join(__file__, "..", "..", "media", "last_pack.png"))
+        self.ICON_BUTTION_OLD = gui.QIcon(self.PATH_OLD)
+        self.BUTTON_OLD.setIconSize(core.QSize(458, 74))
+        self.BUTTON_OLD.setIcon(self.ICON_BUTTION_OLD)
         
         if config.LANGUAGE == "uk":
             self.BUTTON_SAVE = widgets.QPushButton(text = 'Зберегти')
         else:            
             self.BUTTON_SAVE = widgets.QPushButton(text = 'Save')
+        self.BUTTON_SAVE.clicked.connect(self.save_image)
         self.BUTTON_SAVE.setFixedSize(105, 38)
-        self.BUTTON_SAVE.setStyleSheet('border-radius: 4px; background-color: black; color: white')
+        self.BUTTON_SAVE.setStyleSheet('border-radius: 4px; background-color: gray; color: white')
         self.FRAME_LIST_LAYOUT.addWidget(self.LABEL_LIST2)
         self.FRAME_LIST_LAYOUT2.addWidget(self.LABEL_LIST22)
         self.FRAME_LIST_LAYOUT.addWidget(self.FRAME_IMAGES)
@@ -490,3 +507,21 @@ class Main_part_settings(widgets.QFrame):
         
         if main_window:
             main_window.update_language(self.ITEM)
+
+    def press_old(self):
+        self.BUTTON_OLD.setStyleSheet("background-color: transparent")
+        self.BUTTON_MODERN.setStyleSheet("background-color: rgba(0, 0, 0, 100)")
+        self.choose_image = 'old'
+
+    def press_new(self):
+        self.BUTTON_MODERN.setStyleSheet("background-color: transparent")
+        self.BUTTON_OLD.setStyleSheet("background-color: rgba(0, 0, 0, 100)")
+        self.choose_image = 'modern'
+    
+    def save_image(self):
+        self.BUTTON_SAVE.setStyleSheet("border-radius: 4px; background-color: black; color: white")
+        if self.choose_image == 'old':
+            config.CHOOSE_IMAGE = 'old'
+        elif self.choose_image == 'modern':
+            config.CHOOSE_IMAGE = 'modern'
+        

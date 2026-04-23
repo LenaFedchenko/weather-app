@@ -47,7 +47,9 @@ class Graphic:
                                 background-color:transparent
                             
                             }}''')
-        frame2.setFixedWidth(730)
+        # frame2.setFixedWidth(730)
+        frame2.setMinimumWidth(730)
+        frame2.setMaximumWidth(800)
         self.FRAME_LAYOUT.addWidget(frame2)
         
         self.TEMPERATURE_GRAPH_FRAME_LAYOUT = widgets.QHBoxLayout()
@@ -92,7 +94,6 @@ class Graphic:
             label = widgets.QLabel(f'{i}°')
             label.setStyleSheet("font-size: 12px; color: white;")
             label.setAlignment(core.Qt.AlignmentFlag.AlignCenter)
-            # label.setFixedHeight(label_height)
             self.LAYOUT_VERTICAL.addWidget(label, alignment=core.Qt.AlignmentFlag.AlignHCenter)
 
 
