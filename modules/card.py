@@ -101,7 +101,33 @@ class Card(widgets.QFrame):
         btn_card.setStyleSheet("background-color: transparent")
         btn_card.setFixedSize(330, 98)
         btn_card.clicked.connect(self.select_card)
-    
+
+    def update_language(self):
+        city_name, temp, info_weather, max_temp, min_temp, timezone_offset, img = info_for_card(self.city_name_from_list)
+        self.CITY_NAME2 = city_name
+        self.TEMP2 = temp
+        self.MAX_TEMP = max_temp
+        self.MIN_TEMP = min_temp
+        self.TIME_ZONE = timezone_offset
+        self.DECS_WEATH = info_weather
+
+        self.utc_now = datetime.now(timezone.utc)
+        self.city_time = self.utc_now + timedelta(seconds=self.TIME_ZONE)
+        self.time_final = self.city_time.strftime("%H:%M")
+
+        city_name_short = self.CITY_NAME2
+        if len(city_name_short) > 5:
+            city_name_short = city_name_short[:4] + "..."
+
+        self.CITY_NAME.setText(city_name_short)
+        self.DEGREE.setText(f"{self.TEMP2}°")
+        self.WEATER_FEELING.setText(self.DECS_WEATH)
+        self.TIME.setText(self.time_final)
+        if config.LANGUAGE == "uk":
+            self.TEMP.setText(f"Макс.:{self.MAX_TEMP}°, мін.:{self.MIN_TEMP}°")
+        else:
+            self.TEMP.setText(f"Max.:{self.MAX_TEMP}°, min.:{self.MIN_TEMP}°")
+
         
     def select_card(self):
         print("Language:", config.LANGUAGE)
@@ -179,11 +205,11 @@ class Card(widgets.QFrame):
         )
         Card.active_per_hour = Weather_per_hour(
             frame = self.RIGHT_LAYOUT_FRAME,
-            name_city= self.CITY_NAME2
+            name_city= self.city_name_from_list
         )
         Card.active_grafic = Graphic(
             self.CONTENT_FRAME,
-            self.CITY_NAME2
+            self.city_name_from_list
         )
         if len(self.CITY_NAME2) > 5:
             self.CITY_NAME2 = self.CITY_NAME2[:4] + "..."

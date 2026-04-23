@@ -8,6 +8,7 @@ from .title_bar import Title_bar
 from .scroll_frame import Scroll_frame
 from .frame import Frame_create
 from .search import Block_search
+from .card import Card
 import config
 
 
@@ -130,6 +131,10 @@ class MainWindow(widgets.QMainWindow):
 
     def result_search(self):
         self.TEXT_ENTER1 = self.active_search.SEARCH_BOX.text()
+        if self.active_search.FLAG_PRESS_CITY == True:
+            self.active_search.FLAG_PRESS_CITY = False
+        else:
+            self.active_search.selected_city = ""
         if self.BUTTON_ENTER == None:
             if config.LANGUAGE == "uk":
                 self.BUTTON_ENTER = widgets.QPushButton("Додати")
@@ -145,44 +150,42 @@ class MainWindow(widgets.QMainWindow):
             self.BUTTON_DELETE.setStyleSheet("border-radius: 20px; background-color: #3C3C4399; font-size: 15px")
 
         if len(self.active_search.SEARCH_BOX.text())>=2:
-            if self.count >= 1:
-                self.active_search.reset_search()
-                self.count = 0
             self.active_search.modal_search(frame = self.RIGHT_FRAME, entered_text = self.TEXT_ENTER1)
-            self.active_search.button_city.clicked.connect(self.add_city)
-            self.count += 1
+        else:
+            self.active_search.reset_search()
             
         self.active_search.LAYOUT.insertWidget(2, self.BUTTON_ENTER)
         self.active_search.LAYOUT.insertWidget(4, self.BUTTON_DELETE)
     
     def add_city(self):
         self.TEXT_ENTER = self.active_search.SEARCH_BOX.text()
-        self.TEXT_ENTER = self.active_search.button_city.text()
         self.active_search.SEARCH_BOX.setText(self.TEXT_ENTER)
     def add_city_btn(self):
-        self.TEXT_ENTER = self.active_search.SEARCH_BOX.text()
-        self.TEXT_ENTER = self.active_search.button_city.text()
+        self.TEXT_ENTER = self.active_search.selected_city
+        if self.TEXT_ENTER == "":
+            self.TEXT_ENTER = self.active_search.SEARCH_BOX.text()
         self.active_search.reset_search()
         self.scroll_area.city_list(self.TEXT_ENTER)
     def clear_search(self):
+        self.active_search.selected_city = ""
+        self.active_search.FLAG_PRESS_CITY = False
+        self.active_search.reset_search()
         self.active_search.SEARCH_BOX.clear()
     def update_language(self, lang):
-        self.scroll_area.update_lang(lang)
         if lang == "Українська":
+            lang_code = "uk"
             if self.BUTTON_ENTER != None:
-                self.BUTTON_ENTER = widgets.QPushButton("Додати")
+                self.BUTTON_ENTER.setText("Додати")
             self.active_search.SEARCH_BOX.setPlaceholderText('Пошук')
             self.active_search.LABEL.setText('Налаштування')
-            self.scroll_area.update_lang("uk")
-            if self.scroll_area.card.active_info_weather != None:
-                self.scroll_area.card.active_info_weather.LABEL.setText("Поточна позиція")
-            # self.scroll_area.card.active_info_weather.LABEL_4.setText(f"Макс.:{self.scroll_area.card.active_info_weather.max_temp}°, мін.:{self.scroll_area.card.active_info_weather.min_temp}°")
         else:
+            lang_code = "en"
             if self.BUTTON_ENTER != None:
-                self.BUTTON_ENTER = widgets.QPushButton("Add")
+                self.BUTTON_ENTER.setText("Add")
             self.active_search.SEARCH_BOX.setPlaceholderText('Search')
             self.active_search.LABEL.setText('Settings')
-            self.scroll_area.update_lang("en")
-            if self.scroll_area.card.active_info_weather != None:
-                self.scroll_area.card.active_info_weather.LABEL.setText("Current position")
-            # self.scroll_area.card.active_info_weather.LABEL_4.setText(f"Max.:{self.scroll_area.card.active_info_weather.max_temp}°, min.:{self.scroll_area.card.active_info_weather.min_temp}°")
+        self.scroll_area.update_lang(lang_code)
+        if Card.active_card != None:
+            Card.active_card.select_card()
+        if self.active_search.settings_modal != None and self.active_search.settings_modal.isVisible():
+            self.active_search.settings_modal.update_language()

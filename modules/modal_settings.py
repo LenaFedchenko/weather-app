@@ -46,4 +46,25 @@ class Modal_settings(widgets.QWidget):
         MODAL_LAYOUT.addWidget(self.HEADER)
         MODAL_LAYOUT.addWidget(self.CONTENT_FRAME)
         self.show()
+
+    def update_language(self):
+        # получаем текущую вкладку, что бы после обновления языка остаться на ней
+        current_tab = self.main_part.CURRENT_TAB
+        if config.LANGUAGE == "uk":
+            self.LABEL_SETTINGS.setText("Налаштування")
+        else:
+            self.LABEL_SETTINGS.setText("Settings")
+
+        self.main_part.setParent(None)
+        self.main_part.deleteLater()
+        self.main_part = Main_part_settings(self.CONTENT_LAYOUT)
+
+        if current_tab == "search_city":
+            self.main_part.search_city_pressed()
+        elif current_tab == "size_app":
+            self.main_part.size_app_pressed()
+        elif current_tab == "app_language":
+            self.main_part.app_language_pressed()
+        elif current_tab == "image_list":
+            self.main_part.image_list_pressed()
     

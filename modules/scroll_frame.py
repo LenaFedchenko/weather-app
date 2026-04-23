@@ -100,12 +100,6 @@ class Scroll_frame(widgets.QScrollArea):
                 print(error)
 
     def update_lang(self, lang):
-        print("j", lang)
         for card in self.cards:
-            if lang == "uk":
-                card.TEMP.setText(f"Макс.:{self.card.MAX_TEMP}°, мін.:{self.card.MIN_TEMP}°C")
-            elif lang == "en":
-                card.TEMP.setText(f"Max.:{self.card.MAX_TEMP}°, Min.:{self.card.MIN_TEMP}°C")
-
-
+            card.update_language()
 

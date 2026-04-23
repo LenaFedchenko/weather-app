@@ -70,6 +70,7 @@ class Main_part_settings(widgets.QFrame):
         self.LANGUAGE= ""
         self.FRAME_IMAGE= ""
         self.SIZE_APP = ""
+        self.CURRENT_TAB = ""
         self.WEB_VIEW = webengine.QWebEngineView()
         self.WEB_VIEW.setFixedSize(core.QSize(289, 276))
         self.ITEM = "Українська"
@@ -152,6 +153,7 @@ class Main_part_settings(widgets.QFrame):
             parent = parent.parent()
         return None
     def search_city_pressed(self):
+        self.CURRENT_TAB = "search_city"
         self.list_country = info_country()
         
         self.del_prev_card(self.SEARCH_CITY)
@@ -333,6 +335,7 @@ class Main_part_settings(widgets.QFrame):
         self.search_layout.addWidget(self.search_city)
         self.search_layout.addWidget(self.added_cities)
     def size_app_pressed(self):
+        self.CURRENT_TAB = "size_app"
         self.del_prev_card(self.SIZE_APP)
         self.SIZE_APP_LAYOT = widgets.QVBoxLayout()
         self.SIZE_APP_LAYOT.setAlignment(core.Qt.AlignmentFlag.AlignTop)
@@ -358,6 +361,7 @@ class Main_part_settings(widgets.QFrame):
 
         
     def app_language_pressed(self):
+        self.CURRENT_TAB = "app_language"
         self.del_prev_card(self.LANGUAGE)
         self.LANGUAGE_LAYOUT = widgets.QVBoxLayout()
         self.LANGUAGE = Frame_create(layout = self.LANGUAGE_LAYOUT, width = 544, height = 578, color = 'transparent')
@@ -386,6 +390,10 @@ class Main_part_settings(widgets.QFrame):
         self.box_laugu.addItem("Українська")
         self.box_laugu.addItem("English")
         if config.LANGUAGE == "uk":
+            self.box_laugu.setCurrentText("Українська")
+        else:
+            self.box_laugu.setCurrentText("English")
+        if config.LANGUAGE == "uk":
             self.BUTTON_LANGUAGE = widgets.QPushButton(text = 'Зберегти')
         else:            
             self.BUTTON_LANGUAGE = widgets.QPushButton(text = 'Save')
@@ -397,6 +405,7 @@ class Main_part_settings(widgets.QFrame):
         self.frame_for_box_layout.addWidget(self.box_laugu)
         self.FRAME_LAYOUT_MAIN2.addStretch()
     def image_list_pressed(self):
+        self.CURRENT_TAB = "image_list"
         self.del_prev_card(self.FRAME_IMAGE)
         self.FRAME_IMAGE_LAYOUT = widgets.QVBoxLayout()
         self.FRAME_IMAGE = Frame_create(layout = self.FRAME_IMAGE_LAYOUT, width = 544, height = 578, color = 'transparent')

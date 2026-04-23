@@ -63,6 +63,10 @@ class Block_search(widgets.QWidget):
         self.SEARCH_BOX = widgets.QLineEdit(self.FRAME)
         # self.SEARCH_BOX.textChanged.connect(self.result_search)
         self.ENTER_TEXT = ""
+        self.settings_modal = None
+        self.MODAL = None
+        self.selected_city = ""
+        self.FLAG_PRESS_CITY = False
         self.SEARCH_BOX.setFixedSize(215, 42)
         self.SEARCH_BOX.setPlaceholderText('Пошук')
         self.SEARCH_BOX.setStyleSheet("color: white; font-size: 22px; background-color: transparent")
@@ -70,9 +74,39 @@ class Block_search(widgets.QWidget):
         self.SEARCH_LAYOUT.addWidget(self.SEARCH_BOX, core.Qt.AlignmentFlag.AlignLeft)
 
     def reset_search(self):
-        self.MODAL.setParent(None)
+        if self.MODAL != None:
+            self.MODAL.setParent(None)
+            self.MODAL = None
+
+    def select_city(self, city_name):
+        self.selected_city = city_name
+        self.FLAG_PRESS_CITY = True
+        self.SEARCH_BOX.setText(city_name)
+        self.reset_search()
+
+    def create_city_button(self, city_name):
+        button_city = widgets.QPushButton(city_name)
+        button_city.setStyleSheet("background-color: transparent; font-size: 14px; text-align: left; padding-left: 10px;")
+        button_city.setFixedSize(261, 32)
+
+        def button_pressed():
+            self.select_city(city_name)
+
+        button_city.clicked.connect(button_pressed)
+        return button_city
     
     def modal_search(self, frame, entered_text):
+        self.reset_search()
+        list_city = info_cityes()
+        list_city_search = []
+        for city in list_city:
+            if city.lower().startswith(entered_text.lower()):
+                if city not in list_city_search:
+                    list_city_search.append(city)
+                if len(list_city_search) >= 6:
+                    break
+        if len(list_city_search) == 0:
+            return
         self.MODAL = widgets.QWidget(parent = frame)
         # print(entered_text)
         MODAL_LAYOUT = widgets.QVBoxLayout()
@@ -82,17 +116,10 @@ class Block_search(widgets.QWidget):
 
         self.MODAL.setFixedWidth(261)
         self.MODAL.move(500, 55)
-        list_city = info_cityes()
-        count = 0
-        for city in list_city:
-            if city.lower().startswith(entered_text.lower()):
-                count += 1
-                if count <= 6:
-                    self.button_city = widgets.QPushButton(city)
-                    self.button_city.setStyleSheet("background-color: transparent; font-size: 14px; text-align: left; padding-left: 10px;")
-                    self.button_city.setFixedSize(261, 32)
-                    MODAL_LAYOUT.addWidget(self.button_city)
-                    self.MODAL.adjustSize()
+        for city_name in list_city_search:
+            self.button_city = self.create_city_button(city_name)
+            MODAL_LAYOUT.addWidget(self.button_city)
+            self.MODAL.adjustSize()
 
         self.MODAL.show()
 
